@@ -64,7 +64,7 @@ export class AuthService {
           }
     
           const payload = {
-            id: checkEmail.id,
+            id: checkEmail._id,
             email: checkEmail.email,
             role: checkEmail.role,
           };
