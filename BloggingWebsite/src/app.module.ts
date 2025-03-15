@@ -7,6 +7,8 @@ import { MongooseModule, MongooseModuleOptions } from "@nestjs/mongoose";
 import * as config from "config";
 import { ConfigModule } from "@nestjs/config";
 import { FollowModule } from "./follow/follow.module";
+import { CommentModule } from './comments/comments.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { FollowModule } from "./follow/follow.module";
     AuthModule,
     PostsModule,
     FollowModule,
+    CommentModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

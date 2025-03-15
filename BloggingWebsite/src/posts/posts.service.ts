@@ -10,8 +10,8 @@ import { InjectModel } from '@nestjs/mongoose';
 export class PostsService {
    constructor(@InjectModel(Post.name) private postModel: Model<Post>){}
 
- async create(createPostDto: CreatePostDto):Promise<Post> {
-    const post = new this.postModel(createPostDto)
+ async create(createPostDto: CreatePostDto, userId:string):Promise<Post> {
+    const post = new this.postModel({...createPostDto, createdBy:userId})
     return post.save()
   }
 

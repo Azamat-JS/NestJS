@@ -1,5 +1,6 @@
 import { CanActivate, Injectable, UnauthorizedException, ExecutionContext, ForbiddenException, HttpException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import * as config from "config"
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -8,13 +9,13 @@ export class AdminGuard implements CanActivate {
        const request = context.switchToHttp().getRequest()
 
        const authHeader = request.headers.authorization;
-       if(!authHeader || !authHeader.startsWith('Bearer')){
+       if(!authHeader || !authHeader.startsWith('Bearer ')){
         throw new UnauthorizedException('Missing or invalid token')
        }
 
        const adminToken = authHeader.split(' ')[1]
        try {
-        const payload = await this.jwtService.verifyAsync(adminToken, {secret: process.env.JWT_SECRET})
+        const payload = await this.jwtService.verifyAsync(adminToken, {secret: config.get<string>("JWT_SECRET")})
         
         if(payload.role !== 'admin'){
             throw new ForbiddenException('You are not admin')
