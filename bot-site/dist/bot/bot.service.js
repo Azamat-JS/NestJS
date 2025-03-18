@@ -45,6 +45,72 @@ let BotService = class BotService {
                 }
             }
         });
+        this.bot.onText(/\/quiz/, async (msg) => {
+            const chatId = msg.chat.id;
+            const questions = generateQuestions();
+            let score = 0;
+            let index = 0;
+            const askQuestion = () => {
+                if (index < questions.length) {
+                    this.bot.sendMessage(chatId, questions[index].question);
+                }
+                else {
+                    this.bot.sendMessage(chatId, `Quiz tugadi! Sizning to'gri javoblaringiz ${score}/10 \n quizni yana davom ettirishni xohlasangiz "/quiz" buyrug'ini bosing\n agar qiyinroq savollarni xohlasangiz "/hardquiz" buyrug'ini bosing`);
+                }
+            };
+            this.bot.on('message', (response) => {
+                if (index < questions.length && !response.text?.startsWith('/')) {
+                    if (parseInt(response.text) === questions[index].answer) {
+                        score++;
+                    }
+                    index++;
+                    askQuestion();
+                }
+            });
+            askQuestion();
+        });
+        function generateQuestions() {
+            const questions = [];
+            for (let i = 0; i < 10; i++) {
+                const num1 = Math.floor(Math.random() * 50);
+                const num2 = Math.floor(Math.random() * 10);
+                questions.push({ question: `${num1} + ${num2} = ?`, answer: num1 + num2 });
+            }
+            return questions;
+        }
+        function hardQuestions() {
+            const hardQuestions = [];
+            for (let i = 0; i < 10; i++) {
+                const num1 = Math.floor(Math.random() * 100);
+                const num2 = Math.floor(Math.random() * 10);
+                hardQuestions.push({ question: `${num1} * ${num2} = ?`, answer: num1 * num2 });
+            }
+            return hardQuestions;
+        }
+        this.bot.onText(/\/hardquiz/, (msg) => {
+            const chatId = msg.chat.id;
+            const questions = hardQuestions();
+            let score = 0;
+            let index = 0;
+            const askQuestion = () => {
+                if (index < questions.length) {
+                    this.bot.sendMessage(chatId, questions[index].question);
+                }
+                else {
+                    this.bot.sendMessage(chatId, `Quiz tugadi! Sizning to'gri javoblaringiz ${score}/10 \n quizni yana davom ettirishni xohlasangiz "/quiz" buyrug'ini bosing\n agar qiyinroq savollarni xohlasangiz "/hardquiz" buyrug'ini bosing`);
+                }
+            };
+            this.bot.on('message', (response) => {
+                if (index < questions.length && !response.text?.startsWith('/')) {
+                    if (parseInt(response.text) === questions[index].answer) {
+                        score++;
+                    }
+                    index++;
+                    askQuestion();
+                }
+            });
+            askQuestion();
+        });
         this.bot.on("message", async (msg) => {
             const chatId = msg.chat.id;
             const studentId = parseInt(msg.reply_to_message?.text?.split(":")[0]);
