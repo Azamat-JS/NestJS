@@ -1,6 +1,6 @@
-export declare const mockUsers: {
-    id: number;
+export declare class RegisterInput {
     username: string;
     email: string;
     password: string;
-}[];
+    role: string;
+}

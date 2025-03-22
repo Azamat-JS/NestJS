@@ -9,40 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.RegisterInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const typeorm_1 = require("typeorm");
-const UserSetting_1 = require("./UserSetting");
-let User = class User {
-    id;
+let RegisterInput = class RegisterInput {
     username;
     email;
     password;
-    settings;
+    role;
 };
-exports.User = User;
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], User.prototype, "id", void 0);
+exports.RegisterInput = RegisterInput;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
+], RegisterInput.prototype, "username", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], User.prototype, "email", void 0);
+], RegisterInput.prototype, "email", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
+], RegisterInput.prototype, "password", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", UserSetting_1.UserSetting)
-], User.prototype, "settings", void 0);
-exports.User = User = __decorate([
-    (0, graphql_1.ObjectType)()
-], User);
-//# sourceMappingURL=User.js.map
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], RegisterInput.prototype, "role", void 0);
+exports.RegisterInput = RegisterInput = __decorate([
+    (0, graphql_1.InputType)()
+], RegisterInput);
+//# sourceMappingURL=create-auth.input.js.map

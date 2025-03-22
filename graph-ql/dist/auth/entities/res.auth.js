@@ -9,27 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserSetting = void 0;
+exports.RegisterResponse = void 0;
 const graphql_1 = require("@nestjs/graphql");
-let UserSetting = class UserSetting {
-    userId;
-    receiveNotifications;
-    receiveEmail;
+const auth_entity_1 = require("../entities/auth.entity");
+let RegisterResponse = class RegisterResponse {
+    message;
+    data;
 };
-exports.UserSetting = UserSetting;
+exports.RegisterResponse = RegisterResponse;
 __decorate([
-    (0, graphql_1.Field)((type) => graphql_1.Int),
-    __metadata("design:type", Number)
-], UserSetting.prototype, "userId", void 0);
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], RegisterResponse.prototype, "message", void 0);
 __decorate([
-    (0, graphql_1.Field)({ defaultValue: false }),
-    __metadata("design:type", Boolean)
-], UserSetting.prototype, "receiveNotifications", void 0);
-__decorate([
-    (0, graphql_1.Field)({ defaultValue: false }),
-    __metadata("design:type", Boolean)
-], UserSetting.prototype, "receiveEmail", void 0);
-exports.UserSetting = UserSetting = __decorate([
+    (0, graphql_1.Field)(() => auth_entity_1.User),
+    __metadata("design:type", Object)
+], RegisterResponse.prototype, "data", void 0);
+exports.RegisterResponse = RegisterResponse = __decorate([
     (0, graphql_1.ObjectType)()
-], UserSetting);
-//# sourceMappingURL=UserSetting.js.map
+], RegisterResponse);
+//# sourceMappingURL=res.auth.js.map
