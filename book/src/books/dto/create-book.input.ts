@@ -1,16 +1,17 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Float } from '@nestjs/graphql';
+import { CreateCategoryInput } from 'src/category/dto/create-category.input';
 
 @InputType()
 export class CreateBookInput {
   @Field()
   title: string;
 
-  @Field()
+  @Field(() => Float)
   price: number;
 
-  @Field()
-  author: string;
+  @Field({ nullable: true }) 
+  author?: string;
 
-  @Field()
-  createdAt?: string;
+  @Field(() => CreateCategoryInput)
+  category: CreateCategoryInput;
 }

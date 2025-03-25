@@ -1,8 +1,9 @@
-import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { ObjectType, Field, Int, Float, InputType } from '@nestjs/graphql';
 import { CategoryEntity } from 'src/category/entities/category.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { PurchaseEntity } from 'src/purchase/entities/purchase.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 
-@ObjectType() 
+@ObjectType()
 @Entity()
 export class BookEntity {
   @Field(() => Int)
@@ -25,7 +26,14 @@ export class BookEntity {
   @CreateDateColumn({type: "timestamp"})
   createdAt: string;
 
-  @Field(() => CategoryEntity)
+  @Field(() => CategoryEntity, {nullable:true})
   @ManyToOne(() => CategoryEntity, (category) => category.books)
   category:CategoryEntity;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Column({ default: false })
+  purchased: boolean;
+
+  @OneToMany(() => PurchaseEntity, (purchase) => purchase.book)
+  purchases: PurchaseEntity[];
 }

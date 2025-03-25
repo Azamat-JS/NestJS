@@ -24,6 +24,9 @@ export class CategoryService {
   }
 
  async update(id: number, updateCategoryInput: UpdateCategoryInput) {
+  if(!updateCategoryInput || Object.keys(updateCategoryInput).length === 0){
+    throw new Error('No update values provided')
+  }
      await this.categoryRepository.update(id, updateCategoryInput)  
   return this.categoryRepository.findOne({where: {id}})
   }

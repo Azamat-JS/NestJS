@@ -5,42 +5,65 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BookEntity } from './entities/book.entity';
 import { Not, Repository } from 'typeorm';
 import { FilterBookInput } from './dto/filter_book_input';
+import { CategoryEntity } from 'src/category/entities/category.entity';
 
 @Injectable()
 export class BooksService {
-  constructor(@InjectRepository(BookEntity) private readonly bookRepasitory: Repository<BookEntity>){}
- async create(createBookInput: CreateBookInput) {
-  const newBook = this.bookRepasitory.create(createBookInput)
-    return await this.bookRepasitory.save(newBook)
+  constructor(@InjectRepository(BookEntity)
+  private readonly bookRepository: Repository<BookEntity>,
+
+  @InjectRepository(CategoryEntity)
+  private readonly categoryRepository: Repository<CategoryEntity>
+){}
+  
+  async create(createBookInput: CreateBookInput): Promise<BookEntity> {
+    const { title, author, price, category } = createBookInput;
+  
+    let categoryEntity = await this.categoryRepository.findOne({ where: { name: category.name } });
+  
+    if (!categoryEntity) {
+      categoryEntity = this.categoryRepository.create({ name: category.name });
+      await this.categoryRepository.save(categoryEntity);
+    }
+  
+  
+    const newBook = this.bookRepository.create({
+      title,
+      author,
+      price,
+      category: categoryEntity,
+    });
+  
+    return await this.bookRepository.save(newBook);
   }
 
   async searchBooks(title:string):Promise<BookEntity[]>{
-    return this.bookRepasitory.find({
+    return this.bookRepository.find({
       where: {title: title},
       relations: ['category']
     })
   }
 
   async recommendBooks(bookId:number):Promise<BookEntity[]>{
-    const book = await this.bookRepasitory.findOne({
+    const book = await this.bookRepository.findOne({
       where: {id: bookId},
       relations: ['category']
     });
 
     if(!book) return [];
 
-    return this.bookRepasitory.find({
+    return this.bookRepository.find({
       where: {category: book.category, id: Not(bookId)},
       take: 5
     })
   }
 
   async findAll(){
-    return this.bookRepasitory.find()
+    return this.bookRepository.find()
   }
 
  async filterAll(filters:FilterBookInput):Promise<FilterBookInput[]> {
-  const query = this.bookRepasitory.createQueryBuilder("book")
+  const query = this.bookRepository.createQueryBuilder("book")
 
   if(filters.title){
     query.andWhere("LOWER(book.title) LIKE LOWER(:title)", {title: `%${filters.title}%`})
@@ -61,16 +84,16 @@ export class BooksService {
   }
 
   findOne(id: number) {
-    return this.bookRepasitory.findOne({where: {id}})
+    return this.bookRepository.findOne({where: {id}})
   }
 
 async update(id: number, updateBookInput: UpdateBookInput) {
-    await this.bookRepasitory.update(id, updateBookInput)
-    return await this.bookRepasitory.findOne({where: {id}})
+    await this.bookRepository.update(id, updateBookInput)
+    return await this.bookRepository.findOne({where: {id}})
   }
 
  async remove(id: number) {
-   const result = await this.bookRepasitory.delete(id)
+   const result = await this.bookRepository.delete(id)
    if(result.affected === 0){
     throw new Error(`Book with id: ${id} not found`)
    }

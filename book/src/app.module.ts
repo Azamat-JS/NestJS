@@ -8,6 +8,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookEntity } from './books/entities/book.entity';
 import { CategoryModule } from './category/category.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { CategoryModule } from './category/category.module';
     entities:[BookEntity]
   }),
     BooksModule,
-    CategoryModule],
+    CategoryModule,
+    PurchaseModule],
   controllers: [],
   providers: [],
 })

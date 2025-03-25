@@ -1,3 +1,4 @@
+import { CreateCategoryInput } from 'src/category/dto/create-category.input';
 import { CreateBookInput } from './create-book.input';
 import { InputType, Field, PartialType, Float } from '@nestjs/graphql';
 
@@ -9,9 +10,9 @@ export class UpdateBookInput extends PartialType(CreateBookInput) {
   @Field(() => Float, {nullable:true})
   price?: number;
 
-  @Field({nullable:true})
+  @Field({ nullable: true }) 
   author?: string;
 
-  @Field({nullable:true})
-  createdAt?: string;
+  @Field(() => CreateCategoryInput, {nullable:true})
+  category?: CreateCategoryInput;
 }

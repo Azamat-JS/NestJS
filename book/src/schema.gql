@@ -7,13 +7,22 @@ type CategoryEntity {
   name: String!
 }
 
+type PurchaseEntity {
+  id: Int!
+  book: BookEntity!
+  userId: String!
+  formalized: Boolean!
+  purchaseDate: String!
+}
+
 type BookEntity {
   id: Int!
   title: String!
   price: Float!
   author: String
   createdAt: String!
-  category: CategoryEntity!
+  category: CategoryEntity
+  purchased: Boolean!
 }
 
 type Query {
@@ -43,26 +52,28 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
   updateCategory(id: Float!, updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
   removeCategory(id: Int!): CategoryEntity!
+  purchaseBook(bookId: Int!, userId: String!): PurchaseEntity!
+  formalizePurchase(purchaseId: Int!): PurchaseEntity!
 }
 
 input CreateBookInput {
   title: String!
   price: Float!
-  author: String!
-  createdAt: String!
-}
-
-input UpdateBookInput {
-  title: String
-  price: Float
   author: String
-  createdAt: String
+  category: CreateCategoryInput!
 }
 
 input CreateCategoryInput {
   name: String!
 }
 
+input UpdateBookInput {
+  title: String
+  price: Float
+  author: String
+  category: CreateCategoryInput
+}
+
 input UpdateCategoryInput {
-  name: String!
+  name: String
 }
