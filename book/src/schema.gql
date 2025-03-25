@@ -2,18 +2,27 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CategoryEntity {
+  id: Int!
+  name: String!
+}
+
 type BookEntity {
   id: Int!
   title: String!
   price: Float!
   author: String
   createdAt: String!
+  category: CategoryEntity!
 }
 
 type Query {
+  searchBooks(title: String!): [BookEntity!]!
+  recommendBooks(bookId: Float!): [BookEntity!]!
   books: [BookEntity!]!
   filter(filters: FilterBookInput): [BookEntity!]!
   book(id: Int!): BookEntity!
+  category(id: Int!): CategoryEntity!
 }
 
 input FilterBookInput {
@@ -31,6 +40,9 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!): BookEntity!
   updateBook(bookId: Float!, updateBookInput: UpdateBookInput!): BookEntity!
   removeBook(id: Int!): BookEntity!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
+  updateCategory(id: Float!, updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
+  removeCategory(id: Int!): CategoryEntity!
 }
 
 input CreateBookInput {
@@ -45,4 +57,12 @@ input UpdateBookInput {
   price: Float
   author: String
   createdAt: String
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input UpdateCategoryInput {
+  name: String!
 }

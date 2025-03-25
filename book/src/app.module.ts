@@ -8,8 +8,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookEntity } from './books/entities/book.entity';
 import { CategoryModule } from './category/category.module';
-import { CategoryModule } from './category/category.module';
-import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
