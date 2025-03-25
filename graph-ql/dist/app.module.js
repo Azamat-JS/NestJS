@@ -11,7 +11,8 @@ const apollo_1 = require("@nestjs/apollo");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const graphql_1 = require("@nestjs/graphql");
-const user_resolver_1 = require("./graphql/resolvers/user.resolver");
+const typeorm_1 = require("@nestjs/typeorm");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -21,11 +22,24 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloDriver,
-                autoSchemaFile: 'src/schema.gql'
-            })
+                autoSchemaFile: 'src/schema.gql',
+                debug: true,
+                playground: true
+            }),
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'postgres',
+                host: 'localhost',
+                port: 5432,
+                username: 'postgres',
+                password: 'azamat998877',
+                database: 'graph',
+                autoLoadEntities: true,
+                synchronize: true,
+            }),
+            auth_module_1.AuthModule
         ],
         controllers: [],
-        providers: [user_resolver_1.UserResolver]
+        providers: [],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
