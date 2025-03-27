@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookEntity } from './books/entities/book.entity';
 import { CategoryModule } from './category/category.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { RecommendationModule } from './recommendation/recommendation.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { PurchaseModule } from './purchase/purchase.module';
   }),
     BooksModule,
     CategoryModule,
-    PurchaseModule],
+    PurchaseModule,
+    RecommendationModule],
   controllers: [],
   providers: [],
 })

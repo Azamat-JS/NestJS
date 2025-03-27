@@ -14,3 +14,4 @@ export class Follow extends Document {
 }
 
 export const FollowSchema = SchemaFactory.createForClass(Follow);
+
