@@ -48,6 +48,12 @@ let UserService = class UserService {
         data.password = userData.password;
         return await this.userRepository.save(data);
     }
+    async deleteUser(id) {
+        const user = await this.userRepository.delete(id);
+        if (user.affected === 0)
+            throw new common_1.NotFoundException("user not found");
+        return 'User deleted successfully';
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

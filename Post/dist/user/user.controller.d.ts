@@ -5,4 +5,5 @@ export declare class UserController {
     getAllUsers(): Promise<import("./userEntity").User[]>;
     createUser(userData: any): Promise<import("./userEntity").User>;
     updateUser(id: string, userData: any): Promise<import("./userEntity").User>;
+    deleteUser(id: string): Promise<string>;
 }

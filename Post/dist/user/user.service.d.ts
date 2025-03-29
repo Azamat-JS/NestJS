@@ -7,4 +7,5 @@ export declare class UserService {
     createUser(userData: any): Promise<User>;
     getOne(id: string): Promise<User>;
     updateUser(id: string, userData: any): Promise<User>;
+    deleteUser(id: string): Promise<string>;
 }
