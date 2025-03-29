@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/userEntity';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { User } from './user/userEntity';
       synchronize:true,
       entities: [User]
     }),
-    UserModule
+    UserModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
