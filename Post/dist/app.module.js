@@ -14,6 +14,10 @@ const config_1 = require("@nestjs/config");
 const user_module_1 = require("./user/user.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const userEntity_1 = require("./user/userEntity");
+const comments_module_1 = require("./comments/comments.module");
+const comment_entity_1 = require("./comments/entities/comment.entity");
+const posts_module_1 = require("./posts/posts.module");
+const post_entity_1 = require("./posts/entities/post.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,11 +27,14 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: "mongodb",
+                host: 'localhost',
                 url: process.env.MONGO_URI,
                 synchronize: true,
-                entities: [userEntity_1.User]
+                entities: [userEntity_1.User, comment_entity_1.Comment, post_entity_1.Post]
             }),
-            user_module_1.UserModule
+            user_module_1.UserModule,
+            comments_module_1.CommentsModule,
+            posts_module_1.PostsModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

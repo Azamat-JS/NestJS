@@ -9,17 +9,20 @@ import {ObjectId} from 'mongodb'
 @Injectable()
 export class CommentsService {
   constructor(@InjectRepository(Comment) private commentRepository: Repository<Comment>){}
+
  async createComment(createCommentDto: CreateCommentDto):Promise<Comment> {
-    const comment = await this.commentRepository.create(createCommentDto)
-    return comment
+    const {userId, postId, text} = createCommentDto
+    const comment = await this.commentRepository.create({userId, postId, text})
+    const result = this.commentRepository.save(comment)
+    return result
   }
 
- async findAllComment():Promise<Comment[]> {
+ async findAllComments():Promise<Comment[]> {
     const comments = await this.commentRepository.find()
     return comments
   }
 
- async findOne(id: number):Promise<Comment> {
+ async findOneComment(id: string):Promise<Comment> {
    const comment = await this.commentRepository.findOne({
     where: {_id: new ObjectId(id)}
    })
@@ -29,11 +32,16 @@ export class CommentsService {
     return comment; 
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+ async updateComment(id: string, updateCommentDto: UpdateCommentDto) {
+    const comment = await this.findOneComment(id)
+     comment.text = updateCommentDto.text
+     return await this.commentRepository.save(comment)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+ async removeComment(id: string) {
+    const comment = await this.commentRepository.delete(id)
+    if(comment.affected === 0) throw new NotFoundException("comment not found")
+    return "Comment deleted successfully"
+    
   }
 }

@@ -6,18 +6,23 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/userEntity';
 import { CommentsModule } from './comments/comments.module';
+import { Comment } from './comments/entities/comment.entity';
+import { PostsModule } from './posts/posts.module';
+import { Post } from './posts/entities/post.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({envFilePath:'.env', isGlobal:true}),
     TypeOrmModule.forRoot({
       type:"mongodb",
+      host: 'localhost',
       url: process.env.MONGO_URI as string,
       synchronize:true,
-      entities: [User]
+      entities: [User, Comment, Post]
     }),
     UserModule,
-    CommentsModule
+    CommentsModule,
+    PostsModule
   ],
   controllers: [AppController],
   providers: [AppService],
