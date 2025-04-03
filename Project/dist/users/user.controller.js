@@ -24,7 +24,6 @@ let UserController = class UserController {
     async createUser(createUserDto) {
         return this.userService.create(createUserDto);
     }
-    ;
     async login(loginUser, response) {
         const loginRes = await this.userService.login(loginUser.email, loginUser.password);
         if (loginRes.success) {
@@ -32,21 +31,26 @@ let UserController = class UserController {
         }
         return loginRes;
     }
-    ;
-    async verifyEmail(otp, email) {
-        return await this.userService.verifiyEmail(otp, email);
+    async verifyEmail(email, otp) {
+        return await this.userService.verifiyEmail(email, otp);
+    }
+    async forgotPassword(email) {
+        return await this.userService.forgotPassword(email);
+    }
+    async resetPassword(email, otp, newPassword) {
+        return await this.userService.resetPassword(email, otp, newPassword);
     }
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Post)('/register'),
+    (0, common_1.Post)("/register"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createUserDto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
-    (0, common_1.Post)('/login'),
+    (0, common_1.Post)("/login"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -54,13 +58,29 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 __decorate([
-    (0, common_1.Get)("/verify/:otp/:email"),
-    __param(0, (0, common_1.Param)("otp")),
-    __param(1, (0, common_1.Param)("email")),
+    (0, common_1.Get)("/verify/:email/:otp"),
+    __param(0, (0, common_1.Param)("email")),
+    __param(1, (0, common_1.Param)("otp")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "verifyEmail", null);
+__decorate([
+    (0, common_1.Post)("/forgot-password"),
+    __param(0, (0, common_1.Body)("email")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "forgotPassword", null);
+__decorate([
+    (0, common_1.Post)("/reset-password"),
+    __param(0, (0, common_1.Body)("email")),
+    __param(1, (0, common_1.Body)("otp")),
+    __param(2, (0, common_1.Body)("newPassword")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "resetPassword", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [user_service_1.UserService])

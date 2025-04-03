@@ -3,34 +3,52 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/createUserDto";
 import { Response } from "express";
 
-
 @Controller()
-export class UserController{
-    constructor(private readonly userService: UserService){}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-    @Post('/register')
-    async createUser(@Body() createUserDto: CreateUserDto){
-        return this.userService.create(createUserDto)
-    };
+  /// Register
+  @Post("/register")
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
 
+  //// Login
+  @Post("/login")
+  async login(
+    @Body() loginUser: { email: string; password: string },
+    @Res({ passthrough: true }) response: Response
+  ) {
+    const loginRes = await this.userService.login(
+      loginUser.email,
+      loginUser.password
+    );
 
-    @Post('/login')
-    async login(
-        @Body() loginUser: {email:string, password:string},
-        @Res({passthrough:true}) response:Response
-){
-        const loginRes = await this.userService.login(loginUser.email, loginUser.password)
-
-        if(loginRes.success){
-            response.cookie("access_token", loginRes.token, {httpOnly:true})
-        }
-        return loginRes
-    };
-
-    @Get("/verify/:otp/:email")
-    async verifyEmail(@Param("otp") otp:string, @Param("email") email:string){
-        return await this.userService.verifiyEmail(otp, email)
+    if (loginRes.success) {
+      response.cookie("access_token", loginRes.token, { httpOnly: true });
     }
+    return loginRes;
+  }
 
+  ///////// Verify Email
+  @Get("/verify/:email/:otp")
+  async verifyEmail(@Param("email") email: string, @Param("otp") otp: string) {
+    return await this.userService.verifiyEmail(email, otp);
+  }
 
+  //// Forgot password
+  @Post("/forgot-password")
+  async forgotPassword(@Body("email") email: string) {
+    return await this.userService.forgotPassword(email);
+  }
+
+  /// Reset password
+  @Post("/reset-password")
+  async resetPassword(
+    @Body("email") email: string,
+    @Body("otp") otp: string,
+    @Body("newPassword") newPassword: string
+  ) {
+    return await this.userService.resetPassword(email, otp, newPassword);
+  }
 }

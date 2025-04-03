@@ -19,6 +19,7 @@ const mongoose_2 = require("mongoose");
 const Users_1 = require("../shared/schema/Users");
 const password_manager_1 = require("../shared/utility/password-manager");
 const token_generator_1 = require("../shared/utility/token-generator");
+const nodemailer = require("nodemailer");
 let UserService = class UserService {
     userModel;
     constructor(userModel) {
@@ -33,9 +34,26 @@ let UserService = class UserService {
             }
             const otpExpireTime = new Date();
             otpExpireTime.setMinutes(otpExpireTime.getMinutes() + 10);
-            const generateOTP = Array.from({ length: 6 }, () => {
-                Math.floor(Math.random() * 10);
-            }).join("");
+            const generateOTP = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.EMAIL_PASS
+                }
+            });
+            async function main() {
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: createUserDto.email,
+                    subject: "Verify your email",
+                    html: `Dear ${createUserDto.name},<br>
+                    Your verification code:<br><br>
+                    <h1>${generateOTP}</h1>`
+                };
+                const info = await transporter.sendMail(mailOptions);
+            }
+            main().catch(console.error);
             const newUser = await this.userModel.create({
                 ...createUserDto,
                 otp: generateOTP,
@@ -59,7 +77,7 @@ let UserService = class UserService {
             if (user.otpExpireTime < new Date()) {
                 throw new common_1.BadRequestException("OTP expired");
             }
-            await this.userModel.updateOne({ email }, { isVerified: true });
+            await this.userModel.updateOne({ email }, { $set: { isVerified: true, otp: null, otpExpireTime: null } });
             return {
                 success: true,
                 message: 'Email verified successfully'
@@ -98,6 +116,58 @@ let UserService = class UserService {
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('Something went wrong. Please try again later');
+        }
+    }
+    async forgotPassword(email) {
+        try {
+            const user = await this.userModel.findOne({ email });
+            if (!user) {
+                throw new common_1.NotFoundException("User not found");
+            }
+            const otpExpireTime = new Date();
+            otpExpireTime.setMinutes(otpExpireTime.getMinutes() + 10);
+            const resetOTP = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+            const mailOptions = {
+                from: process.env.EMAIL,
+                to: email,
+                subject: "Reset Your Password",
+                html: `Dear ${user.name},<br><br>
+                   Your password reset OTP is: <h1>${resetOTP}</h1><br>
+                   This OTP is valid for 10 minutes.`,
+            };
+            await transporter.sendMail(mailOptions);
+            await this.userModel.updateOne({ email }, { $set: { otp: resetOTP, otpExpireTime } });
+            return { success: true, message: "Password reset OTP sent to your email" };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException("Something went wrong. Please try again later");
+        }
+    }
+    async resetPassword(email, otp, newPassword) {
+        try {
+            const user = await this.userModel.findOne({ email });
+            if (!user) {
+                throw new common_1.NotFoundException("User not found");
+            }
+            if (user.otp !== otp) {
+                throw new common_1.BadRequestException("Invalid OTP");
+            }
+            if (user.otpExpireTime < new Date()) {
+                throw new common_1.BadRequestException("OTP expired");
+            }
+            const hashedPassword = await (0, password_manager_1.generateHashPassword)(newPassword);
+            await this.userModel.updateOne({ email }, { $set: { password: hashedPassword, otp: null, otpExpireTime: null } });
+            return { success: true, message: "Password reset successfully" };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException("Something went wrong. Please try again later");
         }
     }
 };

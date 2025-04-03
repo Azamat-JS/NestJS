@@ -19,7 +19,15 @@ export declare class UserController {
         };
         token: string;
     }>;
-    verifyEmail(otp: string, email: string): Promise<{
+    verifyEmail(email: string, otp: string): Promise<{
+        success: boolean;
+        message: string;
+    }>;
+    forgotPassword(email: string): Promise<{
+        success: boolean;
+        message: string;
+    }>;
+    resetPassword(email: string, otp: string, newPassword: string): Promise<{
         success: boolean;
         message: string;
     }>;
