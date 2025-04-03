@@ -24,6 +24,18 @@ let UserController = class UserController {
     async createUser(createUserDto) {
         return this.userService.create(createUserDto);
     }
+    ;
+    async login(loginUser, response) {
+        const loginRes = await this.userService.login(loginUser.email, loginUser.password);
+        if (loginRes.success) {
+            response.cookie("access_token", loginRes.token, { httpOnly: true });
+        }
+        return loginRes;
+    }
+    ;
+    async verifyEmail(otp, email) {
+        return await this.userService.verifiyEmail(otp, email);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -33,6 +45,22 @@ __decorate([
     __metadata("design:paramtypes", [createUserDto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
+__decorate([
+    (0, common_1.Post)('/login'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "login", null);
+__decorate([
+    (0, common_1.Get)("/verify/:otp/:email"),
+    __param(0, (0, common_1.Param)("otp")),
+    __param(1, (0, common_1.Param)("email")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "verifyEmail", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [user_service_1.UserService])

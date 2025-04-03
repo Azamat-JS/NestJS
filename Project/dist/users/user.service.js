@@ -18,6 +18,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const Users_1 = require("../shared/schema/Users");
 const password_manager_1 = require("../shared/utility/password-manager");
+const token_generator_1 = require("../shared/utility/token-generator");
 let UserService = class UserService {
     userModel;
     constructor(userModel) {
@@ -32,12 +33,68 @@ let UserService = class UserService {
             }
             const otpExpireTime = new Date();
             otpExpireTime.setMinutes(otpExpireTime.getMinutes() + 10);
+            const generateOTP = Array.from({ length: 6 }, () => {
+                Math.floor(Math.random() * 10);
+            }).join("");
             const newUser = await this.userModel.create({
                 ...createUserDto,
-                otp: "123455",
+                otp: generateOTP,
                 otpExpireTime
             });
             return { success: true, message: 'Registered', result: newUser.email };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Something went wrong. Please try again later');
+        }
+    }
+    async verifiyEmail(email, otp) {
+        try {
+            const user = await this.userModel.findOne({ email });
+            if (!user) {
+                throw new common_1.UnauthorizedException("You have not registered yet, please register and try again");
+            }
+            if (user.otp !== otp) {
+                throw new common_1.BadRequestException("Invalid OTP");
+            }
+            if (user.otpExpireTime < new Date()) {
+                throw new common_1.BadRequestException("OTP expired");
+            }
+            await this.userModel.updateOne({ email }, { isVerified: true });
+            return {
+                success: true,
+                message: 'Email verified successfully'
+            };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException('Something went wrong. Please try again later');
+        }
+    }
+    ;
+    async login(email, password) {
+        try {
+            const userExists = await this.userModel.findOne({ email });
+            if (!userExists) {
+                throw new common_1.UnauthorizedException("You have not registered yet, please register and try again");
+            }
+            if (!userExists.isVerified) {
+                throw new Error("Please verify your email");
+            }
+            const isPasswordMatch = await (0, password_manager_1.comparePassword)(password, userExists.password);
+            if (!isPasswordMatch) {
+                throw new common_1.BadRequestException("Invalid credentials");
+            }
+            const token = (0, token_generator_1.generateToken)(userExists._id, userExists.type);
+            return {
+                success: true,
+                message: 'Logged in successfully',
+                user: {
+                    id: userExists._id,
+                    name: userExists.name,
+                    email: userExists.email,
+                    type: userExists.type
+                },
+                token
+            };
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('Something went wrong. Please try again later');

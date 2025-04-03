@@ -1,9 +1,10 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Users } from "src/shared/schema/Users";
 import { CreateUserDto } from "./dto/createUserDto";
-import { generateHashPassword } from "src/shared/utility/password-manager";
+import { comparePassword, generateHashPassword } from "src/shared/utility/password-manager";
+import { generateToken } from "src/shared/utility/token-generator";
 
 
 @Injectable()
@@ -21,13 +22,80 @@ export class UserService {
         const otpExpireTime = new Date();
         otpExpireTime.setMinutes(otpExpireTime.getMinutes() + 10)
 
+        const generateOTP = Array.from({length: 6}, () => {
+          Math.floor(Math.random() * 10)}).join("");
+
         const newUser = await this.userModel.create({
             ...createUserDto,
-            otp: "123455",
+            otp: generateOTP,
             otpExpireTime
         })
 
         return {success:true, message: 'Registered', result: newUser.email}
+    } catch (error) {
+        throw new InternalServerErrorException('Something went wrong. Please try again later')
+    }
+  }
+
+  async verifiyEmail(email:string, otp: string){
+    try {
+        const user = await this.userModel.findOne({email});
+
+        if(!user){
+            throw new UnauthorizedException("You have not registered yet, please register and try again")
+        }
+
+        if(user.otp !== otp){
+           throw new BadRequestException("Invalid OTP")
+        }
+
+
+        if(user.otpExpireTime < new Date()){
+           throw new BadRequestException("OTP expired")
+        }
+
+        await this.userModel.updateOne({email}, {isVerified:true})
+
+       return {
+        success: true,
+        message: 'Email verified successfully'
+       }
+    } catch (error) {
+        throw new InternalServerErrorException('Something went wrong. Please try again later')
+    }
+  };
+
+
+  async login(email:string, password: string){
+    try {
+        const userExists = await this.userModel.findOne({email});
+
+        if(!userExists){
+            throw new UnauthorizedException("You have not registered yet, please register and try again")
+        }
+        
+       if(!userExists.isVerified){
+         throw new Error("Please verify your email")
+       }
+
+       const isPasswordMatch = await comparePassword(password, userExists.password)
+       if(!isPasswordMatch){
+        throw new BadRequestException("Invalid credentials")
+       }
+
+       const token = generateToken(userExists._id as string, userExists.type as string)
+
+       return {
+        success: true,
+        message: 'Logged in successfully',
+        user: {
+           id: userExists._id as string, 
+           name: userExists.name,
+           email: userExists.email,
+           type: userExists.type
+        },
+        token
+       }
     } catch (error) {
         throw new InternalServerErrorException('Something went wrong. Please try again later')
     }
