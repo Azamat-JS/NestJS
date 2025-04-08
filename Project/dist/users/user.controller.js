@@ -21,6 +21,12 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async sendSMS(phone_number) {
+        return this.userService.sendSMS(phone_number);
+    }
+    async getAllUsers() {
+        return this.userService.getAllUsers();
+    }
     async createUser(createUserDto) {
         return this.userService.create(createUserDto);
     }
@@ -42,6 +48,19 @@ let UserController = class UserController {
     }
 };
 exports.UserController = UserController;
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Body)("phone_number")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "sendSMS", null);
+__decorate([
+    (0, common_1.Get)('/getUsers'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAllUsers", null);
 __decorate([
     (0, common_1.Post)("/register"),
     __param(0, (0, common_1.Body)()),
