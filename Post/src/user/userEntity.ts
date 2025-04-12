@@ -1,3 +1,4 @@
+import { IsEmail, IsNotEmpty } from "class-validator";
 import { ObjectId } from "mongodb";
 import { Column, CreateDateColumn, Entity, ObjectIdColumn } from "typeorm";
 
@@ -9,14 +10,16 @@ export class User {
     _id:ObjectId
 
     @Column()
+    @IsNotEmpty()
     username:string
 
     @Column()
+    @IsEmail()
     email:string
 
     @Column()
     password:string
 
-    @CreateDateColumn({type:"timestamp", default:Date})
+    @CreateDateColumn()
     createdAt:Date
 }

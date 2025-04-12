@@ -11,6 +11,10 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_module_1 = require("./users/user.module");
+const redis_module_1 = require("./redis/redis.module");
+const core_1 = require("@nestjs/core");
+const redis_interceptor_1 = require("./redis/redis.interceptor");
+const sms_module_1 = require("./sms/sms.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -19,10 +23,15 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGO_URI),
-            user_module_1.UserModule
+            user_module_1.UserModule,
+            redis_module_1.RedisModule,
+            sms_module_1.SmsModule
         ],
         controllers: [],
-        providers: [],
+        providers: [{
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: redis_interceptor_1.RedisCacheInterceptor
+            }],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

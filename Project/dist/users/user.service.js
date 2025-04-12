@@ -20,10 +20,21 @@ const Users_1 = require("../shared/schema/Users");
 const password_manager_1 = require("../shared/utility/password-manager");
 const token_generator_1 = require("../shared/utility/token-generator");
 const nodemailer = require("nodemailer");
+const sms_service_1 = require("../sms/sms.service");
 let UserService = class UserService {
     userModel;
-    constructor(userModel) {
+    smsService;
+    constructor(userModel, smsService) {
         this.userModel = userModel;
+        this.smsService = smsService;
+    }
+    async getAllUsers() {
+        return this.userModel.find();
+    }
+    ;
+    async sendSMS(phone_number) {
+        const result = await this.smsService.sendSMS(phone_number);
+        return result;
     }
     async create(createUserDto) {
         try {
@@ -175,6 +186,7 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(Users_1.Users.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        sms_service_1.SmsService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

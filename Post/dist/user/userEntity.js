@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const class_validator_1 = require("class-validator");
 const mongodb_1 = require("mongodb");
 const typeorm_1 = require("typeorm");
 let User = class User {
@@ -26,10 +27,12 @@ __decorate([
 ], User.prototype, "_id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
@@ -37,7 +40,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: Date }),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
 exports.User = User = __decorate([

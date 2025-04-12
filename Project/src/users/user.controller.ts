@@ -2,11 +2,23 @@ import { Body, Controller, Get, Param, Post, Res } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/createUserDto";
 import { Response } from "express";
+import { RedisService } from "src/redis/redis.service";
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+
+  // send SMS
+  @Get()
+  async sendSMS(@Body("phone_number") phone_number:string){
+     return this.userService.sendSMS(phone_number)
+  }
+  // Get All Users
+  @Get('/getUsers')
+  async getAllUsers(){
+    return this.userService.getAllUsers()
+  }
   /// Register
   @Post("/register")
   async createUser(@Body() createUserDto: CreateUserDto) {

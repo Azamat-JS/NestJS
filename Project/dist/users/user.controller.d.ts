@@ -4,6 +4,12 @@ import { Response } from "express";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
+    sendSMS(phone_number: string): Promise<import("axios").AxiosResponse<any, any> | undefined>;
+    getAllUsers(): Promise<(import("mongoose").Document<unknown, {}, import("../shared/schema/Users").Users> & import("../shared/schema/Users").Users & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
     createUser(createUserDto: CreateUserDto): Promise<{}>;
     login(loginUser: {
         email: string;

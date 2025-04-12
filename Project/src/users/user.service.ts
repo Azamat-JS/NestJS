@@ -6,11 +6,24 @@ import { CreateUserDto } from "./dto/createUserDto";
 import { comparePassword, generateHashPassword } from "src/shared/utility/password-manager";
 import { generateToken } from "src/shared/utility/token-generator";
 import * as nodemailer from 'nodemailer'
+import { SmsService } from "src/sms/sms.service";
 
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(Users.name) private readonly userModel: Model<Users>){}
+  constructor(@InjectModel(Users.name) private readonly userModel: Model<Users>,
+                           private readonly smsService: SmsService){}
+
+  // Get All Users
+  async getAllUsers(){
+    return this.userModel.find()
+  };
+
+  // send SMS
+ async sendSMS(phone_number:string){
+  const result = await this.smsService.sendSMS(phone_number)
+  return result
+ } 
 
   ////// Register
   async create(createUserDto:CreateUserDto):Promise<{}>{
