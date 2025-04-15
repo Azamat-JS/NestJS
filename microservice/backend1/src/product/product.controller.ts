@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -11,13 +11,32 @@ export class ProductController {
   ) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+ async create(@Body() createProductDto: CreateProductDto) {
+  const product = await this.productService.create(createProductDto);
+  this.clientService.emit("product_created", product);
+  return product
+  }
+
+  @Post(":id/like")
+ async like(@Param() id: string) {
+  const product = await this.productService.findOne(+id)
+  if(!product){
+    throw new NotFoundException(`Product not found with id: ${id}`)
+  }
+  product.likes += 1
+  this.productService.update(+id, product)
+  return product
   }
 
   @Get()
   findAll() {
-    this.clientService.emit('event', 'this is the first event')
+    this.clientService.emit('event', 'this is the emit event').subscribe((response) => {
+      console.log(response);
+    });
+
+    this.clientService.send('event', 'this is the send event').subscribe((response) => {
+      console.log(response)      
+    })
     return this.productService.findAll();
   }
 
@@ -27,12 +46,16 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+ async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  await this.productService.update(+id, updateProductDto);
+  const product = await this.productService.findOne(+id)
+   this.clientService.send("product_updated", product)
+   return product
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    this.clientService.send('product_deleted', id)
     return this.productService.remove(+id);
   }
 }

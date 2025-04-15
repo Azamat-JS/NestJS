@@ -13,8 +13,8 @@ import {ClientsModule, Transport} from "@nestjs/microservices"
         name: "PRODUCT_SERVICE",
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'product_queue',
+          urls: ['amqps://peiedlbh:GGwLIYNm-VROkRjGZ4aKbbXbGOjnBR6Q@seal.lmq.cloudamqp.com/peiedlbh'],
+          queue: 'product11_queue',
           queueOptions: {
             durable: false,
           },

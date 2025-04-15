@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Product } from './schema/product.schema';
+import { Product, ProductDocument } from './schema/product.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectModel(Product.name) private readonly productModel: Model<Product>){}
+  constructor(@InjectModel(Product.name) private readonly productModel: Model<ProductDocument>){}
   create(createProductDto: CreateProductDto) {
     return this.productModel.create(createProductDto);
   }
@@ -17,14 +17,14 @@ export class ProductService {
   }
 
   findOne(id: number) {
-    return this.productModel.findById(id);
+    return this.productModel.findOne({id});
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
-    return this.productModel.findByIdAndUpdate(id, updateProductDto);
+    return this.productModel.findOneAndUpdate({id}, updateProductDto);
   }
 
   remove(id: number) {
-    return this.productModel.findByIdAndDelete(id);
+    return this.productModel.findOneAndDelete({id});
   }
 }

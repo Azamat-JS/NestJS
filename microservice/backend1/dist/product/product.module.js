@@ -25,8 +25,8 @@ exports.ProductModule = ProductModule = __decorate([
                     name: "PRODUCT_SERVICE",
                     transport: microservices_1.Transport.RMQ,
                     options: {
-                        urls: ['amqp://localhost:5672'],
-                        queue: 'product_queue',
+                        urls: ['amqps://peiedlbh:GGwLIYNm-VROkRjGZ4aKbbXbGOjnBR6Q@seal.lmq.cloudamqp.com/peiedlbh'],
+                        queue: 'product11_queue',
                         queueOptions: {
                             durable: false,
                         },

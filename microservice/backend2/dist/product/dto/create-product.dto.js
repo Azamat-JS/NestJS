@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProductDto = void 0;
 class CreateProductDto {
+    id;
     name;
     price;
     likes;

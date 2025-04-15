@@ -25,20 +25,40 @@ let ProductController = class ProductController {
         this.productService = productService;
         this.clientService = clientService;
     }
-    create(createProductDto) {
-        return this.productService.create(createProductDto);
+    async create(createProductDto) {
+        const product = await this.productService.create(createProductDto);
+        this.clientService.emit("product_created", product);
+        return product;
+    }
+    async like(id) {
+        const product = await this.productService.findOne(+id);
+        if (!product) {
+            throw new common_1.NotFoundException(`Product not found with id: ${id}`);
+        }
+        product.likes += 1;
+        this.productService.update(+id, product);
+        return product;
     }
     findAll() {
-        this.clientService.emit('event', 'this is the first event');
+        this.clientService.emit('event', 'this is the emit event').subscribe((response) => {
+            console.log(response);
+        });
+        this.clientService.send('event', 'this is the send event').subscribe((response) => {
+            console.log(response);
+        });
         return this.productService.findAll();
     }
     findOne(id) {
         return this.productService.findOne(+id);
     }
-    update(id, updateProductDto) {
-        return this.productService.update(+id, updateProductDto);
+    async update(id, updateProductDto) {
+        await this.productService.update(+id, updateProductDto);
+        const product = await this.productService.findOne(+id);
+        this.clientService.send("product_updated", product);
+        return product;
     }
     remove(id) {
+        this.clientService.send('product_deleted', id);
         return this.productService.remove(+id);
     }
 };
@@ -48,8 +68,15 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)(":id/like"),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "like", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
@@ -69,7 +96,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_product_dto_1.UpdateProductDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),

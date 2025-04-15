@@ -29,13 +29,13 @@ let ProductService = class ProductService {
         return this.productModel.find();
     }
     findOne(id) {
-        return this.productModel.findById(id);
+        return this.productModel.findOne({ id });
     }
     update(id, updateProductDto) {
-        return this.productModel.findByIdAndUpdate(id, updateProductDto);
+        return this.productModel.findOneAndUpdate({ id }, updateProductDto);
     }
     remove(id) {
-        return this.productModel.findByIdAndDelete(id);
+        return this.productModel.findOneAndDelete({ id });
     }
 };
 exports.ProductService = ProductService;

@@ -12,13 +12,18 @@ const product_service_1 = require("./product.service");
 const product_controller_1 = require("./product.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const product_schema_1 = require("./schema/product.schema");
+const product_microservice_controller_1 = require("./product-microservice.controller");
+const axios_1 = require("@nestjs/axios");
 let ProductModule = class ProductModule {
 };
 exports.ProductModule = ProductModule;
 exports.ProductModule = ProductModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: product_schema_1.Product.name, schema: product_schema_1.ProductSchema }])],
-        controllers: [product_controller_1.ProductController],
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: product_schema_1.Product.name, schema: product_schema_1.ProductSchema }]),
+            axios_1.HttpModule
+        ],
+        controllers: [product_controller_1.ProductController, product_microservice_controller_1.ProductMicroServiceController],
         providers: [product_service_1.ProductService],
     })
 ], ProductModule);

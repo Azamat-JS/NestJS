@@ -1,6 +1,7 @@
 import { HydratedDocument } from "mongoose";
 export type ProductDocument = HydratedDocument<Product>;
 export declare class Product {
+    id: number;
     name: string;
     price: number;
     likes: number;

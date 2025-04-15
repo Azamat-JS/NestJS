@@ -12,11 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductSchema = exports.Product = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 let Product = class Product {
+    id;
     name;
     price;
     likes;
 };
 exports.Product = Product;
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Product.prototype, "id", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
