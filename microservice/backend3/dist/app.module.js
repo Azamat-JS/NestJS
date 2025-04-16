@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
 const product_module_1 = require("./product/product.module");
+const product_entity_1 = require("./product/entities/product.entity");
 const config_1 = require("@nestjs/config");
-const mongoose_1 = require("@nestjs/mongoose");
-const drink_module_1 = require("./drink/drink.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -19,9 +19,16 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URI),
-            product_module_1.ProductModule,
-            drink_module_1.DrinkModule
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'postgres',
+                username: 'postgres',
+                host: 'localhost',
+                port: 5432,
+                database: process.env.DB_NAME,
+                password: process.env.DB_PASS,
+                entities: [product_entity_1.Product],
+                synchronize: true
+            }), product_module_1.ProductModule
         ],
         controllers: [],
         providers: [],
