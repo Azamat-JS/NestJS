@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginDto } from './dto/loginDto';
 import { JwtGuard } from 'src/Guards/jwtAuth.guard';
 import { AdminGuard } from 'src/Guards/admin.guard';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiFoundResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 
 @ApiTags()

@@ -1,5 +1,5 @@
 {
-  "name": "NestJS",
+  "name": "websocket",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -21,17 +21,12 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.1",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/mapped-types": "*",
-    "@nestjs/microservices": "^11.0.11",
-    "@nestjs/mongoose": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/swagger": "^11.0.6",
-    "mongoose": "^8.12.0",
+    "@nestjs/platform-socket.io": "^11.0.20",
+    "@nestjs/websockets": "^11.0.20",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "swagger-ui-express": "^5.0.1"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
