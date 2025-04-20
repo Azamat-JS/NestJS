@@ -31,6 +31,7 @@
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
+    "graph-ql": "file:",
     "graphql": "^16.10.0",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.10.0",
