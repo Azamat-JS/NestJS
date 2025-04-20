@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   orders:
     build: 
@@ -16,6 +18,32 @@ services:
       - /usr/src/node_modules
     ports:
       - '3000:3000'
+
+  billing:
+    build: 
+      context: .
+      dockerfile: ./apps/billing/Dockerfile
+      target: development
+    command: npm run start:dev billing
+    env_file:
+      - ./apps/billing/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/node_modules
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0
     environment:
