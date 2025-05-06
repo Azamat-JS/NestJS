@@ -1,25 +1,29 @@
-import { ArgumentsHost, Catch, ExceptionFilter, Logger, HttpException } from "@nestjs/common";
-import { Request, Response } from "express";
-
-
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  Logger,
+  HttpException,
+  HttpStatus,
+} from "@nestjs/common";
+import { HttpAdapterHost } from "@nestjs/core";
 
 @Catch()
-export class AllExceptionFilter implements ExceptionFilter {
-    private readonly logger = new Logger(AllExceptionFilter.name)
-    catch(exception: any, host: ArgumentsHost) {
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
-        const request = ctx.getRequest<Request>();
-        const status = exception instanceof HttpException ? exception.getStatus() : 500;
-        const message = exception.message || 'Internal server error'
+export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AllExceptionsFilter.name);
+  constructor(private httpAdapterHost: HttpAdapterHost) {}
+  catch(exception: any, host: ArgumentsHost) {
+    const { httpAdapter } = this.httpAdapterHost;
+    const ctx = host.switchToHttp();
 
-        this.logger.error(`Status: ${status}, Message: ${message}`)
-        response.status(status).json({
-            statusCode: status,
-            timestamp: new Date().toISOString,
-            path: request.url,
-            message
-        })
-        
-    }
+    const httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    this.logger.error(
+      `Exception: ${exception.message}, stack: ${exception.stack}`
+    );
+    const responseBody = {
+      status: httpStatus,
+      message: `Internal server error!`,
+    };
+    httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+  }
 }

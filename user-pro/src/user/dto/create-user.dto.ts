@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsEmail, IsNotEmpty, IsEnum } from "class-validator";
+import { IsString, IsEmail, IsNotEmpty, IsEnum, IsOptional } from "class-validator";
 
 export class CreateUserDto {
   @ApiProperty({example: "Ali", description: "Valid username"})
@@ -20,4 +20,8 @@ export class CreateUserDto {
   @IsString()
   @IsEnum(['admin', 'user'], {message: 'Role must be either admin or user'})
   role:string;
+
+  @IsString()
+  @IsOptional()
+  image?:string;
 }

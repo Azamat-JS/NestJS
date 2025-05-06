@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { UploadModule } from './utils/upload.module';
+import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UploadModule } from './utils/upload.module';
       logging:false
     }),
     UploadModule,
+    S3Module,
   ],
   controllers: [AppController],
   providers: [AppService],

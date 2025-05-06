@@ -20,4 +20,8 @@ export class User extends Model {
     @AllowNull(false)
     @Column
     role:string;
+
+    @AllowNull(true)
+    @Column
+    image:string
 }
