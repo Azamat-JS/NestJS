@@ -12,6 +12,12 @@ export class UsersMicroserviceController {
     return this.usersService.createUser(data)
   }
 
+  @MessagePattern({cmd: 'getUserById'})
+ async getUserById(@Payload() data){
+    const {userId} = data;
+    return await this.usersService.getUserById(userId);
+  }
+
   @EventPattern('paymentCreated')
   paymentCreated(@Payload() data: any){
     console.log(data)

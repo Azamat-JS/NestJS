@@ -9,8 +9,13 @@ export class UsersService {
     constructor(@InjectRepository(UserEntity) private readonly usersRepo: Repository<UserEntity>){}
 
    async createUser(createUserDto: CreateUserDto){
+
         const newUser = await this.usersRepo.create(createUserDto)
         console.log('success');        
         return this.usersRepo.save(newUser)
+    }
+
+   async getUserById(userId: string){
+        return this.usersRepo.findOne({where: {id: userId}, relations: ['payments']})
     }
 }

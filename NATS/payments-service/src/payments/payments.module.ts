@@ -4,10 +4,11 @@ import { NatsClientModule } from 'src/nats-client/nats-client.module';
 import { PaymentsService } from './payments.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentEntity } from 'src/typeorm/entities/Payment';
+import { UserEntity } from 'src/typeorm/entities/User';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PaymentEntity]),
+    TypeOrmModule.forFeature([PaymentEntity, UserEntity]),
     NatsClientModule],
   controllers: [PaymentsMicroserviceController],
   exports: [],
