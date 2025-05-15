@@ -1,0 +1,24 @@
+services:
+  api_gateway:
+    build: ./api-gateway
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api-gateway/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=4000
+  users_microservice:
+    build: ./users-microservice
+    volumes:
+      - ./users-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+  payments_microservice:
+    build: ./payments-service
+    volumes:
+      - ./payments-service/src:/usr/src/app/src
+    command: npm run start:dev
+  nats:
+    image: nats
+    ports:
+      - 4222:4222

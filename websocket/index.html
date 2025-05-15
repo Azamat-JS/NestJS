@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple WebSocket Chat</title>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; }
+    #inputArea { display: flex; margin-top: 10px; }
+    #inputArea input { flex: 1; padding: 10px; }
+    #inputArea button { padding: 10px; }
+    .system { color: gray; }
+    .user { color: blue; }
+  </style>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <div id="messages"></div>
+  <div id="inputArea">
+    <input id="messageInput" type="text" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const socket = io('ws://localhost:4004');
+
+    const messagesDiv = document.getElementById('messages');
+    const input = document.getElementById('messageInput');
+
+    function addMessage(msg, className = '') {
+      const div = document.createElement('div');
+      div.textContent = msg;
+      if (className) div.classList.add(className);
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    socket.on('connect', () => {
+      addMessage(`Connected to server (id: ${socket.id})`, 'system');
+    });
+
+    socket.on('user-joined', (data) => {
+      addMessage(data.message, 'system');
+    });
+
+    socket.on('user-left', (data) => {
+      addMessage(data.message, 'system');
+    });
+
+    socket.on('newMessage', (data) => {
+      addMessage(data.message, 'user');
+    });
+
+    function sendMessage() {
+      const msg = input.value.trim();
+      if (msg) {
+        socket.emit('newMessage', msg);
+        input.value = '';
+      }
+    }
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryEntity {
+  id: Int!
+  name: String!
+}
+
+type PurchaseEntity {
+  id: Int!
+  book: BookEntity!
+  userId: String!
+  formalized: Boolean!
+  purchaseDate: String!
+}
+
+type BookEntity {
+  id: Int!
+  title: String!
+  price: Float!
+  author: String
+  createdAt: String!
+  category: CategoryEntity
+  purchased: Boolean!
+}
+
+type Query {
+  searchBooks(title: String!): [BookEntity!]!
+  recommendBooks(bookId: Float!): [BookEntity!]!
+  books: [BookEntity!]!
+  filter(filters: FilterBookInput): [BookEntity!]!
+  book(id: Int!): BookEntity!
+  category(id: Int!): CategoryEntity!
+}
+
+input FilterBookInput {
+  title: String
+  price: Float
+  author: String
+  createdAt: String
+  minPrice: Float
+  maxPrice: Float
+  sortBy: String
+  order: String
+}
+
+type Mutation {
+  createBook(createBookInput: CreateBookInput!): BookEntity!
+  updateBook(bookId: Float!, updateBookInput: UpdateBookInput!): BookEntity!
+  removeBook(id: Int!): BookEntity!
+  createCategory(createCategoryInput: CreateCategoryInput!): CategoryEntity!
+  updateCategory(id: Float!, updateCategoryInput: UpdateCategoryInput!): CategoryEntity!
+  removeCategory(id: Int!): CategoryEntity!
+  purchaseBook(bookId: Int!, userId: String!): PurchaseEntity!
+  formalizePurchase(purchaseId: Int!): PurchaseEntity!
+}
+
+input CreateBookInput {
+  title: String!
+  price: Float!
+  author: String
+  category: CreateCategoryInput!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input UpdateBookInput {
+  title: String
+  price: Float
+  author: String
+  category: CreateCategoryInput
+}
+
+input UpdateCategoryInput {
+  name: String
+}

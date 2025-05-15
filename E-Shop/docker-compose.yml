@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs-app
+    ports:
+      - '4009:4009'
+    env_file:
+      - .env
+    restart: unless-stopped

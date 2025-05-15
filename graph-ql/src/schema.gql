@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  username: String!
+  email: String!
+  password: String!
+  role: String!
+  verify_code: String!
+  resetToken: String!
+  resetTokenExpiry: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type RegisterResponse {
+  message: String!
+  data: User!
+}
+
+type Query {
+  sayHello: String!
+}
+
+type Mutation {
+  register(createUserDto: RegisterInput!): RegisterResponse!
+  login(email: String!, password: String!): String!
+  forgotPassword(email: String!): String!
+  resetPassword(token: String!, newPassword: String!): String!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+  role: String!
+}
