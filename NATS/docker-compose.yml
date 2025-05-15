@@ -22,3 +22,12 @@ services:
     image: nats
     ports:
       - 4222:4222
+  postgres_db:
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=nestjsdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=azamat998877
+

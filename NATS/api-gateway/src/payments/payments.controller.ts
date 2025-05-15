@@ -7,7 +7,7 @@ export class PaymentsController {
     constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy){}
   
     @Post()
-    createPaymetn(@Body() createPaymentDto: CreatePaymentDto){
+    createPayment(@Body() createPaymentDto: CreatePaymentDto){
         this.natsClient.emit('createPayment', createPaymentDto)
     }
 }
