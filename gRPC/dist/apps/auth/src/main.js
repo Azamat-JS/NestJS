@@ -208,47 +208,6 @@ exports.UsersService = UsersService = __decorate([
 
 /***/ }),
 
-/***/ "./libs/common/src/constants/index.ts":
-/*!********************************************!*\
-  !*** ./libs/common/src/constants/index.ts ***!
-  \********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(/*! ./packages */ "./libs/common/src/constants/packages.ts"), exports);
-
-
-/***/ }),
-
-/***/ "./libs/common/src/constants/packages.ts":
-/*!***********************************************!*\
-  !*** ./libs/common/src/constants/packages.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AUTH = void 0;
-exports.AUTH = 'auth';
-
-
-/***/ }),
-
 /***/ "./libs/common/src/index.ts":
 /*!**********************************!*\
   !*** ./libs/common/src/index.ts ***!
@@ -272,7 +231,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(/*! ./types */ "./libs/common/src/types/index.ts"), exports);
-__exportStar(__webpack_require__(/*! ./constants */ "./libs/common/src/constants/index.ts"), exports);
 
 
 /***/ }),
@@ -442,7 +400,7 @@ async function bootstrap() {
         transport: microservices_1.Transport.GRPC,
         options: {
             protoPath: (0, path_1.join)(__dirname, '../auth.proto'),
-            package: common_1.AUTH
+            package: common_1.AUTH_PACKAGE_NAME
         }
     });
     await app.listen();
