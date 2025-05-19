@@ -11,6 +11,7 @@ export class RedisService {
       socket: {
         host: "redis-19047.c14.us-east-1-3.ec2.redns.redis-cloud.com",
         port: 19047,
+        tls:true
       },
     });
     this.client.on("error", (err) => {
