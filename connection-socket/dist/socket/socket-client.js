@@ -9,18 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GatewayController = void 0;
+exports.SocketClient = void 0;
 const common_1 = require("@nestjs/common");
-const gateway_service_1 = require("./gateway.service");
-let GatewayController = class GatewayController {
-    gatewayService;
-    constructor(gatewayService) {
-        this.gatewayService = gatewayService;
+const socket_io_client_1 = require("socket.io-client");
+let SocketClient = class SocketClient {
+    socketClient;
+    constructor() {
+        this.socketClient = (0, socket_io_client_1.io)('http://localhost:3000');
+    }
+    onModuleInit() {
+        this.registerConsumerEvents();
+    }
+    registerConsumerEvents() {
+        this.socketClient.on('connect', () => {
+            console.log('Connected to Gateway');
+        });
+        this.socketClient.on('onMessage', (payload) => {
+            console.log(payload);
+        });
     }
 };
-exports.GatewayController = GatewayController;
-exports.GatewayController = GatewayController = __decorate([
-    (0, common_1.Controller)('gateway'),
-    __metadata("design:paramtypes", [gateway_service_1.GatewayService])
-], GatewayController);
-//# sourceMappingURL=gateway.controller.js.map
+exports.SocketClient = SocketClient;
+exports.SocketClient = SocketClient = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [])
+], SocketClient);
+//# sourceMappingURL=socket-client.js.map

@@ -8,8 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GatewayModule = void 0;
 const common_1 = require("@nestjs/common");
-const gateway_service_1 = require("./gateway.service");
-const gateway_controller_1 = require("./gateway.controller");
 const gateway_1 = require("./gateway");
 let GatewayModule = class GatewayModule {
 };
@@ -17,8 +15,8 @@ exports.GatewayModule = GatewayModule;
 exports.GatewayModule = GatewayModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [gateway_controller_1.GatewayController],
-        providers: [gateway_service_1.GatewayService, gateway_1.MyGateWay],
+        controllers: [],
+        providers: [gateway_1.MyGateWay],
     })
 ], GatewayModule);
 //# sourceMappingURL=gateway.module.js.map
