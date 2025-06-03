@@ -19,7 +19,7 @@ import { Body } from '@nestjs/common';
 export class UploadController {
   constructor(private readonly productService: ProductsService) {}
 
-  @Post('product-image')
+  @Post('image')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -49,7 +49,7 @@ export class UploadController {
   ) {
     const filePath = `/uploads/${file.filename}`;
     
-    const serverUrl = `http://localhost:${process.env.PORT}`; // or get it from env
+    const serverUrl = `${req.protocol}://${req.get('host')}/${filePath}}`; // or get it from env
     
     try {
       await this.productService.addImageToProduct(productId, filePath);

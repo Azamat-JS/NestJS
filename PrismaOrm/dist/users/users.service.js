@@ -18,8 +18,7 @@ let UsersService = class UsersService {
         this.prismaService = prismaService;
     }
     createUser(createUserDto) {
-        this.prismaService.user.
-        ;
+        this.prismaService.user.create(createUserDto);
     }
     findAllUsers() {
         return `This action returns all users`;

@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const users_module_1 = require("./users/users.module");
 const posts_module_1 = require("./posts/posts.module");
+const prisma_module_1 = require("./prisma/prisma.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -19,7 +20,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 envFilePath: '.env',
-            }), users_module_1.UsersModule, posts_module_1.PostsModule],
+            }), users_module_1.UsersModule, posts_module_1.PostsModule, prisma_module_1.PrismaModule],
         controllers: [],
         providers: [],
     })

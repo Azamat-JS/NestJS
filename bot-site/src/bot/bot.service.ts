@@ -40,7 +40,7 @@ export class BotService {
         } else {
           this.bot.sendMessage(
             studentId,
-            "Sizdan botdan foydalanishingiz mumkin"
+            "Siz botdan foydalanishingiz mumkin"
           );
         }
       }
