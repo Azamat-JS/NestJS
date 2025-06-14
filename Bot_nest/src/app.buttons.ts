@@ -29,7 +29,7 @@ export function replyKeyboard(){
 export function taskButtons(){
     return Markup.keyboard([
         ['✅ Completed tasks', '📜 All tasks'],
-        ['✏️ Edit tasks', '🗑️ Remove task'],
+        ['✏️ Edit task', '🗑️ Remove task'],
     ])
     .resize()
     .oneTime(true)

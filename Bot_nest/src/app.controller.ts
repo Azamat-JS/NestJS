@@ -1,6 +1,6 @@
 import { Markup, Telegraf } from "telegraf";
 import { AppService } from "./app.service";
-import { Action, Hears, InjectBot, Message, On, Start, Update } from "nestjs-telegraf";
+import { Action, Ctx, Hears, InjectBot, Message, On, Start, Update } from "nestjs-telegraf";
 import { actionButtons, replyKeyboard, taskButtons } from "./app.buttons";
 import { Context } from "./context.interface";
 import { showList } from "./app.utils";
@@ -22,7 +22,7 @@ export class AppUpdate {
   @Start()
   async startCommand(ctx: Context) {
     await ctx.reply("Assalam alaykum 👋");
-    await ctx.reply("What task do you want to add?", actionButtons());
+    await ctx.reply("What task do you want to add?", taskButtons());
   }
 
   @Hears("Todo")
@@ -97,19 +97,25 @@ export class AppUpdate {
     await ctx.reply(showList(todos))
   }
 
-  @Hears('✅ Completed tasks')
+  @Hears('✏️ Edit task')
   async doneTask(ctx: Context){
-    await ctx.reply('Write ID of the task: ')
     ctx.session.type = 'done'
+    await ctx.reply('Write ID of the task: ')
   }
 
   @On('text')
-  async getMessage(@Message('text') message: string, ctx: Context){
+  async getMessage(@Message('text') message: string, @Ctx() ctx: Context){
     if(!ctx.session.type) return;
 
     if(ctx.session.type === 'done'){
-      const todo = todos.find(t => t.id === Number(message))
-      showList(todos)
+      const todo = todos.find(t => t.id === Number(message));
+      if(!todo){
+       await ctx.deleteMessage()
+       await ctx.reply(`Task with id: ${message} not found`)
+       return
+      }
+      todo.isCompleted = !todo.isCompleted
+      await ctx.reply(showList(todos))
     }
   }
 }

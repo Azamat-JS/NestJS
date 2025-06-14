@@ -17,6 +17,7 @@ const telegraf_1 = require("telegraf");
 const app_service_1 = require("./app.service");
 const nestjs_telegraf_1 = require("nestjs-telegraf");
 const app_buttons_1 = require("./app.buttons");
+const app_utils_1 = require("./app.utils");
 const todos = [
     { id: 1, name: "Write", isCompleted: true },
     { id: 2, name: "Read", isCompleted: true },
@@ -31,7 +32,7 @@ let AppUpdate = class AppUpdate {
     }
     async startCommand(ctx) {
         await ctx.reply("Assalam alaykum 👋");
-        await ctx.reply("What task do you want to add?", (0, app_buttons_1.actionButtons)());
+        await ctx.reply("What task do you want to add?", (0, app_buttons_1.taskButtons)());
     }
     async showButtons(ctx) {
         await ctx.reply("Select your button", (0, app_buttons_1.replyKeyboard)());
@@ -73,94 +74,126 @@ let AppUpdate = class AppUpdate {
         await ctx.replyWithPhoto({ source: "./img/code.png" });
     }
     async handleGetTasks(ctx) {
-        await ctx.reply('What you want to do?', (0, app_buttons_1.taskButtons)());
+        await ctx.reply((0, app_utils_1.showList)(todos));
+    }
+    async doneTask(ctx) {
+        ctx.session.type = 'done';
+        await ctx.reply('Write ID of the task: ');
+    }
+    async getMessage(message, ctx) {
+        if (!ctx.session.type)
+            return;
+        if (ctx.session.type === 'done') {
+            const todo = todos.find(t => t.id === Number(message));
+            if (!todo) {
+                await ctx.deleteMessage();
+                await ctx.reply(`Task with id: ${message} not found`);
+                return;
+            }
+            todo.isCompleted = !todo.isCompleted;
+            await ctx.reply((0, app_utils_1.showList)(todos));
+        }
     }
 };
 exports.AppUpdate = AppUpdate;
 __decorate([
     (0, nestjs_telegraf_1.Start)(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "startCommand", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("Todo"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "showButtons", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("Todo list"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleTodo", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("Edit task"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleEdit", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("Delete task"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleDelete", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("Get tasks"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleUsers", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)('/tasks'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleTasks", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)('/all'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleAll", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)('confirm_yes'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleYes", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)('confirm_no'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleNo", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("list"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "getTasks", null);
 __decorate([
     (0, nestjs_telegraf_1.Hears)("products"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "getProducts", null);
 __decorate([
     (0, nestjs_telegraf_1.Action)("users"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "getUsers", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('/get_tasks'),
+    (0, nestjs_telegraf_1.Hears)('📜 All tasks'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleGetTasks", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('✏️ Edit task'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "doneTask", null);
+__decorate([
+    (0, nestjs_telegraf_1.On)('text'),
+    __param(0, (0, nestjs_telegraf_1.Message)('text')),
+    __param(1, (0, nestjs_telegraf_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "getMessage", null);
 exports.AppUpdate = AppUpdate = __decorate([
     (0, nestjs_telegraf_1.Update)(),
     __param(0, (0, nestjs_telegraf_1.InjectBot)()),

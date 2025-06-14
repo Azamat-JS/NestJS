@@ -1,5 +1,6 @@
-import { Context, Telegraf } from "telegraf";
+import { Telegraf } from "telegraf";
 import { AppService } from "./app.service";
+import { Context } from "./context.interface";
 export declare class AppUpdate {
     private readonly bot;
     private readonly appService;
@@ -18,4 +19,6 @@ export declare class AppUpdate {
     getProducts(ctx: Context): Promise<void>;
     getUsers(ctx: Context): Promise<void>;
     handleGetTasks(ctx: Context): Promise<void>;
+    doneTask(ctx: Context): Promise<void>;
+    getMessage(message: string, ctx: Context): Promise<void>;
 }
