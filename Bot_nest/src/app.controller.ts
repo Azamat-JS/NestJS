@@ -98,8 +98,24 @@ export class AppUpdate {
   }
 
   @Hears('✏️ Edit task')
+  async editTask(ctx: Context){
+    ctx.session.type = 'edit'
+    await ctx.deleteMessage()
+    await ctx.replyWithHTML('Write ID and rename the task: \n\n' + 
+      `In this format:<i> 1 | new name</i>`
+    )
+  }
+
+  @Hears('✅ Completed tasks')
   async doneTask(ctx: Context){
     ctx.session.type = 'done'
+    await ctx.deleteMessage()
+    await ctx.reply('Write ID of the task: ')
+  }
+
+  @Hears('🗑️ Remove task')
+  async removeTask(ctx: Context){
+    ctx.session.type = 'remove'
     await ctx.reply('Write ID of the task: ')
   }
 
@@ -116,6 +132,14 @@ export class AppUpdate {
       }
       todo.isCompleted = !todo.isCompleted
       await ctx.reply(showList(todos))
+    }
+
+    if(ctx.session.type === 'edit'){
+
+    }
+
+    if(ctx.session.type === 'remove'){
+
     }
   }
 }

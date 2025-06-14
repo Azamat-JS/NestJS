@@ -19,6 +19,8 @@ export declare class AppUpdate {
     getProducts(ctx: Context): Promise<void>;
     getUsers(ctx: Context): Promise<void>;
     handleGetTasks(ctx: Context): Promise<void>;
+    editTask(ctx: Context): Promise<void>;
     doneTask(ctx: Context): Promise<void>;
+    removeTask(ctx: Context): Promise<void>;
     getMessage(message: string, ctx: Context): Promise<void>;
 }

@@ -76,8 +76,19 @@ let AppUpdate = class AppUpdate {
     async handleGetTasks(ctx) {
         await ctx.reply((0, app_utils_1.showList)(todos));
     }
+    async editTask(ctx) {
+        ctx.session.type = 'edit';
+        await ctx.deleteMessage();
+        await ctx.replyWithHTML('Write ID and rename the task: \n\n' +
+            `In this format:<i> 1 | new name</i>`);
+    }
     async doneTask(ctx) {
         ctx.session.type = 'done';
+        await ctx.deleteMessage();
+        await ctx.reply('Write ID of the task: ');
+    }
+    async removeTask(ctx) {
+        ctx.session.type = 'remove';
         await ctx.reply('Write ID of the task: ');
     }
     async getMessage(message, ctx) {
@@ -92,6 +103,10 @@ let AppUpdate = class AppUpdate {
             }
             todo.isCompleted = !todo.isCompleted;
             await ctx.reply((0, app_utils_1.showList)(todos));
+        }
+        if (ctx.session.type === 'edit') {
+        }
+        if (ctx.session.type === 'remove') {
         }
     }
 };
@@ -185,7 +200,19 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "editTask", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('✅ Completed tasks'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "doneTask", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('🗑️ Remove task'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "removeTask", null);
 __decorate([
     (0, nestjs_telegraf_1.On)('text'),
     __param(0, (0, nestjs_telegraf_1.Message)('text')),
