@@ -28,6 +28,7 @@ export class BotService {
       .connect(process.env.MONGO_URI as string)
       .then(() => console.log("Connected to MongoDB"))
       .catch((err) => console.error("MongoDB connection error:", err));
+      
     this.bot.setMyCommands([
       {
         command: "/start",

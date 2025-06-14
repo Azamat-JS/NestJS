@@ -8,22 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const app_service_1 = require("./app.service");
+const nestjs_telegraf_1 = require("nestjs-telegraf");
+const LocalSession = require("telegraf-session-local");
 const config_1 = require("@nestjs/config");
-const mongoose_1 = require("@nestjs/mongoose");
-const bot_module_1 = require("./bot/bot.module");
-const users_module_1 = require("./users/users.module");
+const app_controller_1 = require("./app.controller");
+const sessions = new LocalSession({ database: 'session_db.json' });
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URI),
-            bot_module_1.BotModule,
-            users_module_1.UsersModule
+            config_1.ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+            nestjs_telegraf_1.TelegrafModule.forRoot({
+                middlewares: [sessions.middleware()],
+                token: process.env.TG_TOKEN,
+            })
         ],
-        providers: [],
+        providers: [app_service_1.AppService, app_controller_1.AppUpdate],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

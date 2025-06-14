@@ -1,0 +1,170 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppUpdate = void 0;
+const telegraf_1 = require("telegraf");
+const app_service_1 = require("./app.service");
+const nestjs_telegraf_1 = require("nestjs-telegraf");
+const app_buttons_1 = require("./app.buttons");
+const todos = [
+    { id: 1, name: "Write", isCompleted: true },
+    { id: 2, name: "Read", isCompleted: true },
+    { id: 3, name: "Run", isCompleted: false },
+];
+let AppUpdate = class AppUpdate {
+    bot;
+    appService;
+    constructor(bot, appService) {
+        this.bot = bot;
+        this.appService = appService;
+    }
+    async startCommand(ctx) {
+        await ctx.reply("Assalam alaykum 👋");
+        await ctx.reply("What task do you want to add?", (0, app_buttons_1.actionButtons)());
+    }
+    async showButtons(ctx) {
+        await ctx.reply("Select your button", (0, app_buttons_1.replyKeyboard)());
+    }
+    async handleTodo(ctx) {
+        await ctx.reply(`Here is your to-do list...`);
+    }
+    async handleEdit(ctx) {
+        await ctx.reply("Which task would you like to edit?");
+    }
+    async handleDelete(ctx) {
+        await ctx.reply("Which task should be deleted?");
+    }
+    async handleUsers(ctx) {
+        await ctx.replyWithPhoto({ source: "./img/code.png" });
+    }
+    async handleTasks(ctx) {
+        await ctx.reply('Are you sure?', telegraf_1.Markup.inlineKeyboard([
+            telegraf_1.Markup.button.callback('Yes ✅', 'confirm_yes'),
+            telegraf_1.Markup.button.callback('No ❌', 'confirm_no'),
+        ]));
+    }
+    async handleAll(ctx) {
+        await ctx.reply(`${todos.map(todo => (todo.isCompleted ? 'Completed ✅' : 'Not Completed ❌') + todo.name + `\n\n`).join('')}`);
+    }
+    async handleYes(ctx) {
+        await ctx.reply('You are fine go ahead');
+    }
+    async handleNo(ctx) {
+        await ctx.reply('You choose to close your bot');
+    }
+    async getTasks(ctx) {
+        await ctx.replyWithHTML(`<strong>New task</strong>\nThis is your task`);
+    }
+    async getProducts(ctx) {
+        await ctx.replyWithHTML(`<b>New price</b> - $75\n <b>Old price</b> - <del>$100</del>`);
+    }
+    async getUsers(ctx) {
+        await ctx.replyWithPhoto({ source: "./img/code.png" });
+    }
+    async handleGetTasks(ctx) {
+        await ctx.reply('What you want to do?', (0, app_buttons_1.taskButtons)());
+    }
+};
+exports.AppUpdate = AppUpdate;
+__decorate([
+    (0, nestjs_telegraf_1.Start)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "startCommand", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("Todo"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "showButtons", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("Todo list"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleTodo", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("Edit task"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleEdit", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("Delete task"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleDelete", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("Get tasks"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleUsers", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('/tasks'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleTasks", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('/all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleAll", null);
+__decorate([
+    (0, nestjs_telegraf_1.Action)('confirm_yes'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleYes", null);
+__decorate([
+    (0, nestjs_telegraf_1.Action)('confirm_no'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleNo", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("list"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "getTasks", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("products"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "getProducts", null);
+__decorate([
+    (0, nestjs_telegraf_1.Action)("users"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "getUsers", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)('/get_tasks'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [telegraf_1.Context]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "handleGetTasks", null);
+exports.AppUpdate = AppUpdate = __decorate([
+    (0, nestjs_telegraf_1.Update)(),
+    __param(0, (0, nestjs_telegraf_1.InjectBot)()),
+    __metadata("design:paramtypes", [telegraf_1.Telegraf,
+        app_service_1.AppService])
+], AppUpdate);
+//# sourceMappingURL=app.controller.js.map

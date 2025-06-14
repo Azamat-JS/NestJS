@@ -41,7 +41,7 @@ let BotService = class BotService {
                     this.bot.sendMessage(studentId, `Assalam alaykum ${msg.from?.first_name} ${msg.from?.last_name}, \n siz botdan foydalanishingiz mumkin!`);
                 }
                 else {
-                    this.bot.sendMessage(studentId, "Sizdan botdan foydalanishingiz mumkin");
+                    this.bot.sendMessage(studentId, "Siz botdan foydalanishingiz mumkin");
                 }
             }
         });

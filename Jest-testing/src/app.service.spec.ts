@@ -43,7 +43,9 @@ describe('AppService', () => {
   it('should delete a user', () => {
     appService.createUser('Dave', 22);
     const deleted = appService.deleteUser('Dave');
+    const notDeleted = appService.deleteUser('sam');
     expect(deleted).toBe(true);
+    expect(notDeleted).toBe(false)
     expect(appService.findUser('Dave')).toBeUndefined();
   });
 
