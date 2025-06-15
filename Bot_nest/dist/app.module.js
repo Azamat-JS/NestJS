@@ -13,6 +13,9 @@ const nestjs_telegraf_1 = require("nestjs-telegraf");
 const LocalSession = require("telegraf-session-local");
 const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
+const typeorm_1 = require("@nestjs/typeorm");
+const path_1 = require("path");
+const task_entity_1 = require("./entities/task.entity");
 const sessions = new LocalSession({ database: 'session_db.json' });
 let AppModule = class AppModule {
 };
@@ -24,7 +27,19 @@ exports.AppModule = AppModule = __decorate([
             nestjs_telegraf_1.TelegrafModule.forRoot({
                 middlewares: [sessions.middleware()],
                 token: process.env.TG_TOKEN,
-            })
+            }),
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'postgres',
+                host: 'localhost',
+                port: 5432,
+                database: process.env.DB_NAME,
+                password: process.env.DB_PASSWORD,
+                username: process.env.DB_USERNAME,
+                entities: [task_entity_1.TaskEntity],
+                migrations: [(0, path_1.join)(__dirname, '**', '*.migration.{ts.js}')],
+                synchronize: true
+            }),
+            typeorm_1.TypeOrmModule.forFeature([task_entity_1.TaskEntity])
         ],
         providers: [app_service_1.AppService, app_controller_1.AppUpdate],
     })

@@ -18,11 +18,6 @@ const app_service_1 = require("./app.service");
 const nestjs_telegraf_1 = require("nestjs-telegraf");
 const app_buttons_1 = require("./app.buttons");
 const app_utils_1 = require("./app.utils");
-const todos = [
-    { id: 1, name: "Write", isCompleted: true },
-    { id: 2, name: "Read", isCompleted: true },
-    { id: 3, name: "Run", isCompleted: false },
-];
 let AppUpdate = class AppUpdate {
     bot;
     appService;
@@ -50,19 +45,16 @@ let AppUpdate = class AppUpdate {
         await ctx.replyWithPhoto({ source: "./img/code.png" });
     }
     async handleTasks(ctx) {
-        await ctx.reply('Are you sure?', telegraf_1.Markup.inlineKeyboard([
-            telegraf_1.Markup.button.callback('Yes ✅', 'confirm_yes'),
-            telegraf_1.Markup.button.callback('No ❌', 'confirm_no'),
+        await ctx.reply("Are you sure?", telegraf_1.Markup.inlineKeyboard([
+            telegraf_1.Markup.button.callback("Yes ✅", "confirm_yes"),
+            telegraf_1.Markup.button.callback("No ❌", "confirm_no"),
         ]));
     }
-    async handleAll(ctx) {
-        await ctx.reply(`${todos.map(todo => (todo.isCompleted ? 'Completed ✅' : 'Not Completed ❌') + todo.name + `\n\n`).join('')}`);
-    }
     async handleYes(ctx) {
-        await ctx.reply('You are fine go ahead');
+        await ctx.reply("You are fine go ahead");
     }
     async handleNo(ctx) {
-        await ctx.reply('You choose to close your bot');
+        await ctx.reply("You choose to close your bot");
     }
     async getTasks(ctx) {
         await ctx.replyWithHTML(`<strong>New task</strong>\nThis is your task`);
@@ -74,39 +66,62 @@ let AppUpdate = class AppUpdate {
         await ctx.replyWithPhoto({ source: "./img/code.png" });
     }
     async handleGetTasks(ctx) {
-        await ctx.reply((0, app_utils_1.showList)(todos));
+        const todos = await this.appService.getAll();
+        ctx.reply((0, app_utils_1.showList)(todos));
     }
     async editTask(ctx) {
-        ctx.session.type = 'edit';
+        ctx.session.type = "edit";
         await ctx.deleteMessage();
-        await ctx.replyWithHTML('Write ID and rename the task: \n\n' +
+        await ctx.replyWithHTML("Write ID and rename the task: \n\n" +
             `In this format:<i> 1 | new name</i>`);
     }
     async doneTask(ctx) {
-        ctx.session.type = 'done';
+        ctx.session.type = "done";
         await ctx.deleteMessage();
-        await ctx.reply('Write ID of the task: ');
+        await ctx.reply("Write ID of the task: ");
+    }
+    async createTask(ctx) {
+        ctx.session.type = "create";
+        await ctx.reply("Write new task name");
     }
     async removeTask(ctx) {
-        ctx.session.type = 'remove';
-        await ctx.reply('Write ID of the task: ');
+        ctx.session.type = "remove";
+        await ctx.reply("Write ID of the task: ");
     }
     async getMessage(message, ctx) {
         if (!ctx.session.type)
             return;
-        if (ctx.session.type === 'done') {
-            const todo = todos.find(t => t.id === Number(message));
-            if (!todo) {
+        if (ctx.session.type === "create") {
+            const todos = await this.appService.createTask(message);
+            await ctx.reply((0, app_utils_1.showList)(todos));
+        }
+        if (ctx.session.type === "done") {
+            const todos = await this.appService.doneTask(Number(message));
+            if (!todos) {
                 await ctx.deleteMessage();
                 await ctx.reply(`Task with id: ${message} not found`);
                 return;
             }
-            todo.isCompleted = !todo.isCompleted;
             await ctx.reply((0, app_utils_1.showList)(todos));
         }
-        if (ctx.session.type === 'edit') {
+        if (ctx.session.type === "edit") {
+            const [taskId, newName] = message.split(" | ");
+            const todos = await this.appService.editTask(Number(taskId), newName);
+            if (!todos) {
+                await ctx.deleteMessage();
+                await ctx.reply(`Task with id: ${taskId} not found`);
+                return;
+            }
+            await ctx.reply((0, app_utils_1.showList)(todos));
         }
-        if (ctx.session.type === 'remove') {
+        if (ctx.session.type === "remove") {
+            const todos = await this.appService.deleteTask(Number(message));
+            if (!todos) {
+                await ctx.deleteMessage();
+                await ctx.reply(`Task with id: ${message} not found`);
+                return;
+            }
+            await ctx.reply((0, app_utils_1.showList)(todos));
         }
     }
 };
@@ -148,25 +163,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleUsers", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('/tasks'),
+    (0, nestjs_telegraf_1.Hears)("/tasks"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleTasks", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('/all'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], AppUpdate.prototype, "handleAll", null);
-__decorate([
-    (0, nestjs_telegraf_1.Action)('confirm_yes'),
+    (0, nestjs_telegraf_1.Action)("confirm_yes"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleYes", null);
 __decorate([
-    (0, nestjs_telegraf_1.Action)('confirm_no'),
+    (0, nestjs_telegraf_1.Action)("confirm_no"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
@@ -190,32 +199,38 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "getUsers", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('📜 All tasks'),
+    (0, nestjs_telegraf_1.Hears)("📜 All tasks"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "handleGetTasks", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('✏️ Edit task'),
+    (0, nestjs_telegraf_1.Hears)("✏️ Edit task"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "editTask", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('✅ Completed tasks'),
+    (0, nestjs_telegraf_1.Hears)("✅ Completed tasks"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "doneTask", null);
 __decorate([
-    (0, nestjs_telegraf_1.Hears)('🗑️ Remove task'),
+    (0, nestjs_telegraf_1.Hears)("➕ Create task"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AppUpdate.prototype, "createTask", null);
+__decorate([
+    (0, nestjs_telegraf_1.Hears)("🗑️ Remove task"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AppUpdate.prototype, "removeTask", null);
 __decorate([
-    (0, nestjs_telegraf_1.On)('text'),
-    __param(0, (0, nestjs_telegraf_1.Message)('text')),
+    (0, nestjs_telegraf_1.On)("text"),
+    __param(0, (0, nestjs_telegraf_1.Message)("text")),
     __param(1, (0, nestjs_telegraf_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),

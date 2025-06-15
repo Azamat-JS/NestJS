@@ -30,6 +30,7 @@ export function taskButtons(){
     return Markup.keyboard([
         ['✅ Completed tasks', '📜 All tasks'],
         ['✏️ Edit task', '🗑️ Remove task'],
+        ['➕ Create task']
     ])
     .resize()
     .oneTime(true)

@@ -28,6 +28,7 @@ function taskButtons() {
     return telegraf_1.Markup.keyboard([
         ['✅ Completed tasks', '📜 All tasks'],
         ['✏️ Edit task', '🗑️ Remove task'],
+        ['➕ Create task']
     ])
         .resize()
         .oneTime(true);

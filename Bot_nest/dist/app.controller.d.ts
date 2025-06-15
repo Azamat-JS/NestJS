@@ -12,7 +12,6 @@ export declare class AppUpdate {
     handleDelete(ctx: Context): Promise<void>;
     handleUsers(ctx: Context): Promise<void>;
     handleTasks(ctx: Context): Promise<void>;
-    handleAll(ctx: Context): Promise<void>;
     handleYes(ctx: Context): Promise<void>;
     handleNo(ctx: Context): Promise<void>;
     getTasks(ctx: Context): Promise<void>;
@@ -21,6 +20,7 @@ export declare class AppUpdate {
     handleGetTasks(ctx: Context): Promise<void>;
     editTask(ctx: Context): Promise<void>;
     doneTask(ctx: Context): Promise<void>;
+    createTask(ctx: Context): Promise<void>;
     removeTask(ctx: Context): Promise<void>;
     getMessage(message: string, ctx: Context): Promise<void>;
 }
