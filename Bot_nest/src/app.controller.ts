@@ -101,7 +101,7 @@ export class AppUpdate {
     ctx.session.type = "edit";
     await ctx.deleteMessage();
     await ctx.replyWithHTML(
-      "Write ID and rename the task: \n\n" +
+      "Write ID and new name of the task: \n\n" +
         `In this format:<i> 1 | new name</i>`
     );
   }
