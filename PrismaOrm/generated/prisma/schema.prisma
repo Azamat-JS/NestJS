@@ -15,26 +15,19 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  username    String?  @unique
-  displayName String?  @default("")
-  email       String?  @unique
-  password    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String  @id @default(ulid())
+  username    String  @unique
+  displayName String? @default("")
 }
 
 model UserSetting {
-  id              Int     @id @default(autoincrement())
-  notificationsOn Boolean
-  smsEnabled      Boolean
+  id             String  @id @default(ulid())
+  notificationOn Boolean
+  smsEnabled     Boolean
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
+  id          String @id @default(ulid())
   title       String
   description String
-  content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }

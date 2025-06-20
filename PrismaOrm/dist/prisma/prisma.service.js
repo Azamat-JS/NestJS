@@ -12,12 +12,8 @@ const prisma_1 = require("../../generated/prisma/index.js");
 let PrismaService = class PrismaService extends prisma_1.PrismaClient {
     onModuleInit() {
         this.$connect()
-            .then(() => {
-            console.log('Connected to the database');
-        })
-            .catch((error) => {
-            console.error('Error connecting to the database:', error);
-        });
+            .then(() => console.log('Connected to DB'))
+            .catch((err) => { console.log(err); });
     }
 };
 exports.PrismaService = PrismaService;

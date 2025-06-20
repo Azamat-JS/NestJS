@@ -14,10 +14,8 @@ let PrismaModule = class PrismaModule {
 exports.PrismaModule = PrismaModule;
 exports.PrismaModule = PrismaModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
         providers: [prisma_service_1.PrismaService],
         exports: [prisma_service_1.PrismaService],
-        controllers: [],
     })
 ], PrismaModule);
 //# sourceMappingURL=prisma.module.js.map

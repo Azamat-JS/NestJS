@@ -13,24 +13,36 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 let UsersService = class UsersService {
-    prismaService;
-    constructor(prismaService) {
-        this.prismaService = prismaService;
+    prisma;
+    constructor(prisma) {
+        this.prisma = prisma;
     }
-    createUser(createUserDto) {
-        this.prismaService.user.create(createUserDto);
+    createUser(createUserInput) {
+        return this.prisma.user.create({ data: createUserInput });
     }
-    findAllUsers() {
-        return `This action returns all users`;
+    getUsers() {
+        return this.prisma.user.findMany({});
     }
-    findOneUser(id) {
-        return `This action returns a #${id} user`;
+    getUserById(id) {
+        return this.prisma.user.findUnique({ where: { id } });
     }
-    updateUser(id, updateUserDto) {
-        return `This action updates a #${id} user`;
+    async updateUserById(id, data) {
+        const findUser = await this.getUserById(id);
+        if (!findUser)
+            throw new common_1.HttpException('User not found', common_1.HttpStatus.NOT_FOUND);
+        if (data.username) {
+            const findUser = await this.prisma.user.findUnique({ where: { username: data.username } });
+            if (findUser)
+                throw new common_1.HttpException('Username is already taken', 400);
+        }
+        return this.prisma.user.update({ where: { id }, data });
     }
-    removeUser(id) {
-        return `This action removes a #${id} user`;
+    async deleteUserById(id) {
+        const findUser = await this.getUserById(id);
+        if (!findUser)
+            throw new common_1.HttpException('User not found', 404);
+        await this.prisma.user.delete({ where: { id } });
+        return `User with id: ${id} deleted successfully`;
     }
 };
 exports.UsersService = UsersService;

@@ -6,35 +6,29 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id          String   @id @default(cuid())
-  username    String
-  displayName String?  @default("")
-  email       String   @unique
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id String @default(ulid()) @id
+  username String @unique
+  displayName String? @default("")
 }
 
 model UserSetting {
-  id              Int     @id @default(autoincrement())
-  notificationsOn Boolean
-  smsEnabled      Boolean
+  id String @default(ulid()) @id
+  notificationOn Boolean
+  smsEnabled Boolean
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  title       String
+  id String @default(ulid()) @id
+  title String
   description String
-  content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }

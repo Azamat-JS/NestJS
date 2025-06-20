@@ -1,30 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma } from 'generated/prisma';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
-  createUser(createUserDto: Prisma.UserCreateInput) {
-    this.prismaService.user.create(createUserDto)
+    constructor(private readonly prisma: PrismaService){}
 
-  }
+    createUser(createUserInput: Prisma.UserCreateInput){
+       return this.prisma.user.create({data: createUserInput})
+    }
 
-  findAllUsers() {
-    return `This action returns all users`;
-  }
+    getUsers(){
+        return this.prisma.user.findMany({})
+    }
 
-  findOneUser(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    getUserById(id: string){
+        return this.prisma.user.findUnique({where: {id}})
+    }
 
-  updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+   async updateUserById(id:string, data: Prisma.UserUpdateInput){
+        const findUser = await this.getUserById(id);
+        if(!findUser) throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+        if(data.username){
+            const findUser = await this.prisma.user.findUnique({where: {username: data.username as string}});
+            if(findUser) throw new HttpException('Username is already taken', 400);
+        }
+        return this.prisma.user.update({where: {id}, data})
+    }
 
-  removeUser(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    async deleteUserById(id: string){
+        const findUser = await this.getUserById(id);
+        if(!findUser) throw new HttpException('User not found', 404);
+        await this.prisma.user.delete({where: {id}});
+        return `User with id: ${id} deleted successfully`
+    }
 }

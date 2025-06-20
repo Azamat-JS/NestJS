@@ -241,8 +241,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.10.1
+   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
    */
   export type PrismaVersion = {
     client: string
@@ -1065,30 +1065,18 @@ export namespace Prisma {
     id: string | null
     username: string | null
     displayName: string | null
-    email: string | null
-    password: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     username: string | null
     displayName: string | null
-    email: string | null
-    password: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     username: number
     displayName: number
-    email: number
-    password: number
-    createdAt: number
-    updatedAt: number
     _all: number
   }
 
@@ -1097,30 +1085,18 @@ export namespace Prisma {
     id?: true
     username?: true
     displayName?: true
-    email?: true
-    password?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     username?: true
     displayName?: true
-    email?: true
-    password?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     username?: true
     displayName?: true
-    email?: true
-    password?: true
-    createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
@@ -1198,12 +1174,8 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    username: string | null
+    username: string
     displayName: string | null
-    email: string | null
-    password: string | null
-    createdAt: Date
-    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1227,55 +1199,35 @@ export namespace Prisma {
     id?: boolean
     username?: boolean
     displayName?: boolean
-    email?: boolean
-    password?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     username?: boolean
     displayName?: boolean
-    email?: boolean
-    password?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     username?: boolean
     displayName?: boolean
-    email?: boolean
-    password?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     username?: boolean
     displayName?: boolean
-    email?: boolean
-    password?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "displayName" | "email" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "displayName", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      username: string | null
+      username: string
       displayName: string | null
-      email: string | null
-      password: string | null
-      createdAt: Date
-      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1702,10 +1654,6 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly displayName: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -2078,63 +2026,45 @@ export namespace Prisma {
 
   export type AggregateUserSetting = {
     _count: UserSettingCountAggregateOutputType | null
-    _avg: UserSettingAvgAggregateOutputType | null
-    _sum: UserSettingSumAggregateOutputType | null
     _min: UserSettingMinAggregateOutputType | null
     _max: UserSettingMaxAggregateOutputType | null
   }
 
-  export type UserSettingAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type UserSettingSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type UserSettingMinAggregateOutputType = {
-    id: number | null
-    notificationsOn: boolean | null
+    id: string | null
+    notificationOn: boolean | null
     smsEnabled: boolean | null
   }
 
   export type UserSettingMaxAggregateOutputType = {
-    id: number | null
-    notificationsOn: boolean | null
+    id: string | null
+    notificationOn: boolean | null
     smsEnabled: boolean | null
   }
 
   export type UserSettingCountAggregateOutputType = {
     id: number
-    notificationsOn: number
+    notificationOn: number
     smsEnabled: number
     _all: number
   }
 
 
-  export type UserSettingAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type UserSettingSumAggregateInputType = {
-    id?: true
-  }
-
   export type UserSettingMinAggregateInputType = {
     id?: true
-    notificationsOn?: true
+    notificationOn?: true
     smsEnabled?: true
   }
 
   export type UserSettingMaxAggregateInputType = {
     id?: true
-    notificationsOn?: true
+    notificationOn?: true
     smsEnabled?: true
   }
 
   export type UserSettingCountAggregateInputType = {
     id?: true
-    notificationsOn?: true
+    notificationOn?: true
     smsEnabled?: true
     _all?: true
   }
@@ -2177,18 +2107,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: UserSettingAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: UserSettingSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserSettingMinAggregateInputType
@@ -2219,19 +2137,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserSettingCountAggregateInputType | true
-    _avg?: UserSettingAvgAggregateInputType
-    _sum?: UserSettingSumAggregateInputType
     _min?: UserSettingMinAggregateInputType
     _max?: UserSettingMaxAggregateInputType
   }
 
   export type UserSettingGroupByOutputType = {
-    id: number
-    notificationsOn: boolean
+    id: string
+    notificationOn: boolean
     smsEnabled: boolean
     _count: UserSettingCountAggregateOutputType | null
-    _avg: UserSettingAvgAggregateOutputType | null
-    _sum: UserSettingSumAggregateOutputType | null
     _min: UserSettingMinAggregateOutputType | null
     _max: UserSettingMaxAggregateOutputType | null
   }
@@ -2252,36 +2166,36 @@ export namespace Prisma {
 
   export type UserSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    notificationsOn?: boolean
+    notificationOn?: boolean
     smsEnabled?: boolean
   }, ExtArgs["result"]["userSetting"]>
 
   export type UserSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    notificationsOn?: boolean
+    notificationOn?: boolean
     smsEnabled?: boolean
   }, ExtArgs["result"]["userSetting"]>
 
   export type UserSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    notificationsOn?: boolean
+    notificationOn?: boolean
     smsEnabled?: boolean
   }, ExtArgs["result"]["userSetting"]>
 
   export type UserSettingSelectScalar = {
     id?: boolean
-    notificationsOn?: boolean
+    notificationOn?: boolean
     smsEnabled?: boolean
   }
 
-  export type UserSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "notificationsOn" | "smsEnabled", ExtArgs["result"]["userSetting"]>
+  export type UserSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "notificationOn" | "smsEnabled", ExtArgs["result"]["userSetting"]>
 
   export type $UserSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserSetting"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      notificationsOn: boolean
+      id: string
+      notificationOn: boolean
       smsEnabled: boolean
     }, ExtArgs["result"]["userSetting"]>
     composites: {}
@@ -2706,8 +2620,8 @@ export namespace Prisma {
    * Fields of the UserSetting model
    */
   interface UserSettingFieldRefs {
-    readonly id: FieldRef<"UserSetting", 'Int'>
-    readonly notificationsOn: FieldRef<"UserSetting", 'Boolean'>
+    readonly id: FieldRef<"UserSetting", 'String'>
+    readonly notificationOn: FieldRef<"UserSetting", 'Boolean'>
     readonly smsEnabled: FieldRef<"UserSetting", 'Boolean'>
   }
     
@@ -3081,82 +2995,46 @@ export namespace Prisma {
 
   export type AggregatePost = {
     _count: PostCountAggregateOutputType | null
-    _avg: PostAvgAggregateOutputType | null
-    _sum: PostSumAggregateOutputType | null
     _min: PostMinAggregateOutputType | null
     _max: PostMaxAggregateOutputType | null
   }
 
-  export type PostAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type PostSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type PostMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     title: string | null
     description: string | null
-    content: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type PostMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     title: string | null
     description: string | null
-    content: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type PostCountAggregateOutputType = {
     id: number
     title: number
     description: number
-    content: number
-    createdAt: number
-    updatedAt: number
     _all: number
   }
 
-
-  export type PostAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type PostSumAggregateInputType = {
-    id?: true
-  }
 
   export type PostMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type PostMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type PostCountAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
@@ -3198,18 +3076,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: PostAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PostSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: PostMinAggregateInputType
@@ -3240,22 +3106,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PostCountAggregateInputType | true
-    _avg?: PostAvgAggregateInputType
-    _sum?: PostSumAggregateInputType
     _min?: PostMinAggregateInputType
     _max?: PostMaxAggregateInputType
   }
 
   export type PostGroupByOutputType = {
-    id: number
+    id: string
     title: string
     description: string
-    content: string
-    createdAt: Date
-    updatedAt: Date
     _count: PostCountAggregateOutputType | null
-    _avg: PostAvgAggregateOutputType | null
-    _sum: PostSumAggregateOutputType | null
     _min: PostMinAggregateOutputType | null
     _max: PostMaxAggregateOutputType | null
   }
@@ -3278,50 +3137,35 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     description?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     description?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectScalar = {
     id?: boolean
     title?: boolean
     description?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description", ExtArgs["result"]["post"]>
 
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       title: string
       description: string
-      content: string
-      createdAt: Date
-      updatedAt: Date
     }, ExtArgs["result"]["post"]>
     composites: {}
   }
@@ -3745,12 +3589,9 @@ export namespace Prisma {
    * Fields of the Post model
    */
   interface PostFieldRefs {
-    readonly id: FieldRef<"Post", 'Int'>
+    readonly id: FieldRef<"Post", 'String'>
     readonly title: FieldRef<"Post", 'String'>
     readonly description: FieldRef<"Post", 'String'>
-    readonly content: FieldRef<"Post", 'String'>
-    readonly createdAt: FieldRef<"Post", 'DateTime'>
-    readonly updatedAt: FieldRef<"Post", 'DateTime'>
   }
     
 
@@ -4134,11 +3975,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     username: 'username',
-    displayName: 'displayName',
-    email: 'email',
-    password: 'password',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    displayName: 'displayName'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -4146,7 +3983,7 @@ export namespace Prisma {
 
   export const UserSettingScalarFieldEnum: {
     id: 'id',
-    notificationsOn: 'notificationsOn',
+    notificationOn: 'notificationOn',
     smsEnabled: 'smsEnabled'
   };
 
@@ -4156,10 +3993,7 @@ export namespace Prisma {
   export const PostScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    description: 'description',
-    content: 'content',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    description: 'description'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -4209,16 +4043,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
+   * Reference to a field of type 'Boolean'
    */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4234,27 +4061,6 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -4265,45 +4071,29 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
-    username?: StringNullableFilter<"User"> | string | null
+    username?: StringFilter<"User"> | string
     displayName?: StringNullableFilter<"User"> | string | null
-    email?: StringNullableFilter<"User"> | string | null
-    password?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    username?: SortOrderInput | SortOrder
+    username?: SortOrder
     displayName?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     username?: string
-    email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     displayName?: StringNullableFilter<"User"> | string | null
-    password?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }, "id" | "username" | "email">
+  }, "id" | "username">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    username?: SortOrderInput | SortOrder
+    username?: SortOrder
     displayName?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -4314,55 +4104,49 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
-    username?: StringNullableWithAggregatesFilter<"User"> | string | null
+    username?: StringWithAggregatesFilter<"User"> | string
     displayName?: StringNullableWithAggregatesFilter<"User"> | string | null
-    email?: StringNullableWithAggregatesFilter<"User"> | string | null
-    password?: StringNullableWithAggregatesFilter<"User"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type UserSettingWhereInput = {
     AND?: UserSettingWhereInput | UserSettingWhereInput[]
     OR?: UserSettingWhereInput[]
     NOT?: UserSettingWhereInput | UserSettingWhereInput[]
-    id?: IntFilter<"UserSetting"> | number
-    notificationsOn?: BoolFilter<"UserSetting"> | boolean
+    id?: StringFilter<"UserSetting"> | string
+    notificationOn?: BoolFilter<"UserSetting"> | boolean
     smsEnabled?: BoolFilter<"UserSetting"> | boolean
   }
 
   export type UserSettingOrderByWithRelationInput = {
     id?: SortOrder
-    notificationsOn?: SortOrder
+    notificationOn?: SortOrder
     smsEnabled?: SortOrder
   }
 
   export type UserSettingWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: UserSettingWhereInput | UserSettingWhereInput[]
     OR?: UserSettingWhereInput[]
     NOT?: UserSettingWhereInput | UserSettingWhereInput[]
-    notificationsOn?: BoolFilter<"UserSetting"> | boolean
+    notificationOn?: BoolFilter<"UserSetting"> | boolean
     smsEnabled?: BoolFilter<"UserSetting"> | boolean
   }, "id">
 
   export type UserSettingOrderByWithAggregationInput = {
     id?: SortOrder
-    notificationsOn?: SortOrder
+    notificationOn?: SortOrder
     smsEnabled?: SortOrder
     _count?: UserSettingCountOrderByAggregateInput
-    _avg?: UserSettingAvgOrderByAggregateInput
     _max?: UserSettingMaxOrderByAggregateInput
     _min?: UserSettingMinOrderByAggregateInput
-    _sum?: UserSettingSumOrderByAggregateInput
   }
 
   export type UserSettingScalarWhereWithAggregatesInput = {
     AND?: UserSettingScalarWhereWithAggregatesInput | UserSettingScalarWhereWithAggregatesInput[]
     OR?: UserSettingScalarWhereWithAggregatesInput[]
     NOT?: UserSettingScalarWhereWithAggregatesInput | UserSettingScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"UserSetting"> | number
-    notificationsOn?: BoolWithAggregatesFilter<"UserSetting"> | boolean
+    id?: StringWithAggregatesFilter<"UserSetting"> | string
+    notificationOn?: BoolWithAggregatesFilter<"UserSetting"> | boolean
     smsEnabled?: BoolWithAggregatesFilter<"UserSetting"> | boolean
   }
 
@@ -4370,228 +4154,168 @@ export namespace Prisma {
     AND?: PostWhereInput | PostWhereInput[]
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
-    id?: IntFilter<"Post"> | number
+    id?: StringFilter<"Post"> | string
     title?: StringFilter<"Post"> | string
     description?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
-    createdAt?: DateTimeFilter<"Post"> | Date | string
-    updatedAt?: DateTimeFilter<"Post"> | Date | string
   }
 
   export type PostOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: PostWhereInput | PostWhereInput[]
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
     title?: StringFilter<"Post"> | string
     description?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
-    createdAt?: DateTimeFilter<"Post"> | Date | string
-    updatedAt?: DateTimeFilter<"Post"> | Date | string
   }, "id">
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     _count?: PostCountOrderByAggregateInput
-    _avg?: PostAvgOrderByAggregateInput
     _max?: PostMaxOrderByAggregateInput
     _min?: PostMinOrderByAggregateInput
-    _sum?: PostSumOrderByAggregateInput
   }
 
   export type PostScalarWhereWithAggregatesInput = {
     AND?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
     OR?: PostScalarWhereWithAggregatesInput[]
     NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Post"> | number
+    id?: StringWithAggregatesFilter<"Post"> | string
     title?: StringWithAggregatesFilter<"Post"> | string
     description?: StringWithAggregatesFilter<"Post"> | string
-    content?: StringWithAggregatesFilter<"Post"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
 
   export type UserCreateInput = {
     id?: string
-    username?: string | null
+    username: string
     displayName?: string | null
-    email?: string | null
-    password?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
-    username?: string | null
+    username: string
     displayName?: string | null
-    email?: string | null
-    password?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyInput = {
     id?: string
-    username?: string | null
+    username: string
     displayName?: string | null
-    email?: string | null
-    password?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    username?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserSettingCreateInput = {
-    notificationsOn: boolean
+    id?: string
+    notificationOn: boolean
     smsEnabled: boolean
   }
 
   export type UserSettingUncheckedCreateInput = {
-    id?: number
-    notificationsOn: boolean
+    id?: string
+    notificationOn: boolean
     smsEnabled: boolean
   }
 
   export type UserSettingUpdateInput = {
-    notificationsOn?: BoolFieldUpdateOperationsInput | boolean
+    id?: StringFieldUpdateOperationsInput | string
+    notificationOn?: BoolFieldUpdateOperationsInput | boolean
     smsEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    notificationsOn?: BoolFieldUpdateOperationsInput | boolean
+    id?: StringFieldUpdateOperationsInput | string
+    notificationOn?: BoolFieldUpdateOperationsInput | boolean
     smsEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingCreateManyInput = {
-    id?: number
-    notificationsOn: boolean
+    id?: string
+    notificationOn: boolean
     smsEnabled: boolean
   }
 
   export type UserSettingUpdateManyMutationInput = {
-    notificationsOn?: BoolFieldUpdateOperationsInput | boolean
+    id?: StringFieldUpdateOperationsInput | string
+    notificationOn?: BoolFieldUpdateOperationsInput | boolean
     smsEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    notificationsOn?: BoolFieldUpdateOperationsInput | boolean
+    id?: StringFieldUpdateOperationsInput | string
+    notificationOn?: BoolFieldUpdateOperationsInput | boolean
     smsEnabled?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PostCreateInput = {
+    id?: string
     title: string
     description: string
-    content: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type PostUncheckedCreateInput = {
-    id?: number
+    id?: string
     title: string
     description: string
-    content: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type PostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostCreateManyInput = {
-    id?: number
+    id?: string
     title: string
     description: string
-    content: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type PostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4624,17 +4348,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -4644,30 +4357,18 @@ export namespace Prisma {
     id?: SortOrder
     username?: SortOrder
     displayName?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
     displayName?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
     displayName?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -4706,31 +4407,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -4738,44 +4414,20 @@ export namespace Prisma {
 
   export type UserSettingCountOrderByAggregateInput = {
     id?: SortOrder
-    notificationsOn?: SortOrder
+    notificationOn?: SortOrder
     smsEnabled?: SortOrder
-  }
-
-  export type UserSettingAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type UserSettingMaxOrderByAggregateInput = {
     id?: SortOrder
-    notificationsOn?: SortOrder
+    notificationOn?: SortOrder
     smsEnabled?: SortOrder
   }
 
   export type UserSettingMinOrderByAggregateInput = {
     id?: SortOrder
-    notificationsOn?: SortOrder
+    notificationOn?: SortOrder
     smsEnabled?: SortOrder
-  }
-
-  export type UserSettingSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -4790,35 +4442,18 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PostAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type PostMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type PostMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PostSumOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4829,20 +4464,8 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -4871,17 +4494,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -4940,50 +4552,9 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
