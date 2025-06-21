@@ -24,6 +24,21 @@ let PostsService = class PostsService {
             } });
         return newPost;
     }
+    createGroupPost(userIds, data) {
+        return this.prisma.groupPost.create({ data: {
+                ...data,
+                users: {
+                    create: userIds.map((userId) => ({ userId }))
+                }
+            } });
+    }
+    getGroupPosts() {
+        return this.prisma.groupPost.findMany({ include: { users: {
+                    select: {
+                        user: true
+                    }
+                } } });
+    }
 };
 exports.PostsService = PostsService;
 exports.PostsService = PostsService = __decorate([

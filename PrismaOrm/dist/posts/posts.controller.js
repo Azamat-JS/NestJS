@@ -16,6 +16,7 @@ exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
 const posts_service_1 = require("./posts.service");
 const CreatePost_dto_1 = require("./dto/CreatePost.dto");
+const CreateGroupPost_dto_1 = require("./dto/CreateGroupPost.dto");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
@@ -23,6 +24,12 @@ let PostsController = class PostsController {
     }
     createPost({ userId, ...createPostData }) {
         return this.postsService.createPost(userId, createPostData);
+    }
+    createGroupPost({ userIds, ...createGroupPostData }) {
+        return this.postsService.createGroupPost(userIds, createGroupPostData);
+    }
+    getGroupPosts() {
+        return this.postsService.getGroupPosts();
     }
 };
 exports.PostsController = PostsController;
@@ -34,6 +41,20 @@ __decorate([
     __metadata("design:paramtypes", [CreatePost_dto_1.CreatePostDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createPost", null);
+__decorate([
+    (0, common_1.Post)('group'),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [CreateGroupPost_dto_1.CreateGroupPostDto]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "createGroupPost", null);
+__decorate([
+    (0, common_1.Get)('group'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getGroupPosts", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])

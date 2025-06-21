@@ -126,6 +126,17 @@ exports.Prisma.UserScalarFieldEnum = {
   displayName: 'displayName'
 };
 
+exports.Prisma.GroupPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description'
+};
+
+exports.Prisma.UserOnGroupPostsScalarFieldEnum = {
+  userId: 'userId',
+  groupPostId: 'groupPostId'
+};
+
 exports.Prisma.UserSettingScalarFieldEnum = {
   id: 'id',
   notificationOn: 'notificationOn',
@@ -158,6 +169,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  GroupPost: 'GroupPost',
+  UserOnGroupPosts: 'UserOnGroupPosts',
   UserSetting: 'UserSetting',
   Post: 'Post'
 };
