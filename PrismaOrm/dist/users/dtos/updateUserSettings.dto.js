@@ -9,25 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostsService = void 0;
-const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma/prisma.service");
-let PostsService = class PostsService {
-    prisma;
-    constructor(prisma) {
-        this.prisma = prisma;
-    }
-    async createPost(userId, data) {
-        const newPost = await this.prisma.post.create({ data: {
-                ...data,
-                userId
-            } });
-        return newPost;
-    }
-};
-exports.PostsService = PostsService;
-exports.PostsService = PostsService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], PostsService);
-//# sourceMappingURL=posts.service.js.map
+exports.UpdateUserSettingsDto = void 0;
+const class_validator_1 = require("class-validator");
+class UpdateUserSettingsDto {
+    smsEnabled;
+    notificationOn;
+}
+exports.UpdateUserSettingsDto = UpdateUserSettingsDto;
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], UpdateUserSettingsDto.prototype, "smsEnabled", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], UpdateUserSettingsDto.prototype, "notificationOn", void 0);
+//# sourceMappingURL=updateUserSettings.dto.js.map

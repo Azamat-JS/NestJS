@@ -18,20 +18,42 @@ let UsersService = class UsersService {
         this.prisma = prisma;
     }
     createUser(createUserInput) {
-        return this.prisma.user.create({ data: createUserInput });
+        return this.prisma.user.create({
+            data: {
+                ...createUserInput,
+                userSetting: {
+                    create: {
+                        smsEnabled: true,
+                        notificationOn: false,
+                    },
+                },
+            },
+        });
     }
     getUsers() {
-        return this.prisma.user.findMany({});
+        return this.prisma.user.findMany({
+            include: {
+                userSetting: true,
+            },
+        });
     }
     getUserById(id) {
-        return this.prisma.user.findUnique({ where: { id } });
+        return this.prisma.user.findUnique({
+            where: { id },
+            include: {
+                userSetting: { select: { smsEnabled: true, notificationOn: true } },
+                posts: true
+            },
+        });
     }
     async updateUserById(id, data) {
         const findUser = await this.getUserById(id);
         if (!findUser)
             throw new common_1.HttpException('User not found', common_1.HttpStatus.NOT_FOUND);
         if (data.username) {
-            const findUser = await this.prisma.user.findUnique({ where: { username: data.username } });
+            const findUser = await this.prisma.user.findUnique({
+                where: { username: data.username },
+            });
             if (findUser)
                 throw new common_1.HttpException('Username is already taken', 400);
         }
@@ -43,6 +65,14 @@ let UsersService = class UsersService {
             throw new common_1.HttpException('User not found', 404);
         await this.prisma.user.delete({ where: { id } });
         return `User with id: ${id} deleted successfully`;
+    }
+    async updateUserSettings(userId, data) {
+        const findUser = await this.getUserById(userId);
+        if (!findUser)
+            throw new common_1.HttpException('User not found', common_1.HttpStatus.NOT_FOUND);
+        if (!findUser.userSetting)
+            throw new common_1.BadRequestException('The user doesn`t have user settings');
+        return this.prisma.userSetting.update({ where: { userId }, data });
     }
 };
 exports.UsersService = UsersService;

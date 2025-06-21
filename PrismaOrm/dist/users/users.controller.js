@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const createUser_dto_1 = require("./dtos/createUser.dto");
 const updateUser_dto_1 = require("./dtos/updateUser.dto");
+const updateUserSettings_dto_1 = require("./dtos/updateUserSettings.dto");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -39,6 +40,9 @@ let UsersController = class UsersController {
     }
     deleteUserById(id) {
         return this.usersService.deleteUserById(id);
+    }
+    updateUserSettings(id, data) {
+        return this.usersService.updateUserSettings(id, data);
     }
 };
 exports.UsersController = UsersController;
@@ -78,6 +82,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUserById", null);
+__decorate([
+    (0, common_1.Patch)(':id/settings'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, updateUserSettings_dto_1.UpdateUserSettingsDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "updateUserSettings", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

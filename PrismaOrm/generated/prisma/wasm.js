@@ -129,13 +129,15 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.UserSettingScalarFieldEnum = {
   id: 'id',
   notificationOn: 'notificationOn',
-  smsEnabled: 'smsEnabled'
+  smsEnabled: 'smsEnabled',
+  userId: 'userId'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description'
+  description: 'description',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
