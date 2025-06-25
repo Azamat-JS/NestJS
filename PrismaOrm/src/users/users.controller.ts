@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import { UpdateUserSettingsDto } from './dtos/updateUserSettings.dto';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('users')
 export class UsersController {

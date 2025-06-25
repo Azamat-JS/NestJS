@@ -13,14 +13,29 @@ const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const posts_module_1 = require("./posts/posts.module");
 const prisma_module_1 = require("./prisma/prisma.module");
+const throttler_1 = require("@nestjs/throttler");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, posts_module_1.PostsModule, prisma_module_1.PrismaModule],
+        imports: [
+            throttler_1.ThrottlerModule.forRoot({
+                throttlers: [
+                    {
+                        limit: 3,
+                        ttl: 10000
+                    }
+                ]
+            }),
+            users_module_1.UsersModule, posts_module_1.PostsModule, prisma_module_1.PrismaModule
+        ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, {
+                provide: core_1.APP_GUARD,
+                useClass: throttler_1.ThrottlerGuard
+            }],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
