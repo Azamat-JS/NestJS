@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 const event_emitter_1 = require("@nestjs/event-emitter");
-const user_created_event_1 = require("./events/user-created.event");
 const schedule_1 = require("@nestjs/schedule");
 const axios_1 = require("axios");
 let AppService = AppService_1 = class AppService {
@@ -27,49 +26,43 @@ let AppService = AppService_1 = class AppService {
     getHello() {
         return "Hello World!";
     }
-    async createUser(body) {
-        this.logger.log("Creating user...", body);
-        const userId = "1234";
-        this.eventEmitter.emit("user.created", new user_created_event_1.UserCreatedEvent(userId, body.email));
-        const establishWSTimeout = setTimeout(() => this.establishWSConnection(userId), 5000);
-        this.schedulerRegistry.addTimeout(`${userId}_establish_ws`, establishWSTimeout);
+    async createAuth(data) {
+        this.logger.log('creating new user...', data);
+        const userId = '222';
+        this.eventEmitter.emit('user.creating', data);
     }
-    establishWSConnection(userId) {
-        this.logger.log("Establishing ws connection with user", userId);
-    }
-    welcomeNewUser(payload) {
-        this.logger.log("Welcoming new user...", payload.email);
+    async taskWriting() {
+        this.logger.log('tasks are creating');
     }
     async sendRequestToSomeUrl() {
         try {
             await this.intervalForever();
+            console.log();
         }
         catch (error) {
-            console.error('Error with interval');
+            console.error("Error with interval");
         }
     }
     async intervalForever() {
         try {
             const response = await axios_1.default.get("http://localhost:4000/users", {
                 headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                }
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
             });
-            let count = 0;
-            console.log(response.data, `${++count}`);
+            console.log(response.data);
         }
-        catch (error) {
-        }
+        catch (error) { }
     }
 };
 exports.AppService = AppService;
 __decorate([
-    (0, event_emitter_1.OnEvent)("user.created"),
+    (0, schedule_1.Interval)(1000),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_created_event_1.UserCreatedEvent]),
-    __metadata("design:returntype", void 0)
-], AppService.prototype, "welcomeNewUser", null);
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppService.prototype, "taskWriting", null);
 __decorate([
     (0, schedule_1.Interval)(1000),
     __metadata("design:type", Function),

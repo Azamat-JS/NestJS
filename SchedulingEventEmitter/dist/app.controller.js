@@ -24,8 +24,8 @@ let AppController = class AppController {
     getHello() {
         return this.appService.getHello();
     }
-    async createUser(body) {
-        return this.appService.createUser(body);
+    async createAuth(data) {
+        return this.appService.createAuth(data);
     }
 };
 exports.AppController = AppController;
@@ -36,12 +36,12 @@ __decorate([
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('auth'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
-], AppController.prototype, "createUser", null);
+], AppController.prototype, "createAuth", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

@@ -19,14 +19,14 @@ let ChatGateway = class ChatGateway {
     server;
     handleConnection(client) {
         console.log('Client connected:', client.id);
-        client.broadcast.emit('user-joined', { message: `A new user has joined the chat!: ${client.id}` });
+        this.server.emit('user-joined', { message: `A new user has joined the chat!: ${client.id}` });
     }
     handleDisconnect(client) {
         console.log('Client disconnected:', client.id);
         this.server.emit('user-left', { message: `A user has left the chat!: ${client.id}` });
     }
     handleMessage(message) {
-        this.server.emit('newMessage', { message });
+        this.server.emit('onMessage', { message });
         console.log('Message received:', message);
     }
 };

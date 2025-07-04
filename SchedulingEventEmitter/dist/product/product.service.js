@@ -13,6 +13,7 @@ exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const order_create_events_1 = require("../events/order-create.events");
+const create_user_dto_1 = require("../dto/create-user.dto");
 let ProductService = class ProductService {
     create(createProductDto) {
         return 'This action adds a new product';
@@ -29,6 +30,9 @@ let ProductService = class ProductService {
     remove(payload) {
         console.log('Product ordered and should be deleted from the DB', payload);
     }
+    handleUserCreating(payload) {
+        console.log(`Product service received data from app.service ${payload.email} ${payload.password}`);
+    }
 };
 exports.ProductService = ProductService;
 __decorate([
@@ -37,6 +41,12 @@ __decorate([
     __metadata("design:paramtypes", [order_create_events_1.OrderCreateEvent]),
     __metadata("design:returntype", void 0)
 ], ProductService.prototype, "remove", null);
+__decorate([
+    (0, event_emitter_1.OnEvent)('user.creating'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
+    __metadata("design:returntype", void 0)
+], ProductService.prototype, "handleUserCreating", null);
 exports.ProductService = ProductService = __decorate([
     (0, common_1.Injectable)()
 ], ProductService);

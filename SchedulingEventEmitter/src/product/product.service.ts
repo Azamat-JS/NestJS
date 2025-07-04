@@ -3,6 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { OnEvent } from '@nestjs/event-emitter';
 import { OrderCreateEvent } from 'src/events/order-create.events';
+import { CreateUserDto } from 'src/dto/create-user.dto';
 
 @Injectable()
 export class ProductService {
@@ -25,5 +26,10 @@ export class ProductService {
   @OnEvent('order-created')
   remove(payload: OrderCreateEvent) {
     console.log('Product ordered and should be deleted from the DB', payload)
+  }
+
+  @OnEvent('user.creating')
+  handleUserCreating(payload: CreateUserDto){
+    console.log(`Product service received data from app.service ${payload.email} ${payload.password}`)
   }
 }

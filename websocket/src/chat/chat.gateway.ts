@@ -9,7 +9,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect{
 
   handleConnection(client: Socket){
     console.log('Client connected:', client.id);
-    client.broadcast.emit('user-joined', { message: `A new user has joined the chat!: ${client.id}` });
+    this.server.emit('user-joined', { message: `A new user has joined the chat!: ${client.id}` });
   }
 
   handleDisconnect(client: Socket) {
@@ -18,9 +18,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect{
   }
 
   @SubscribeMessage('newMessage')
-
   handleMessage(@MessageBody() message:string): void {
-   this.server.emit('newMessage', { message });
+   this.server.emit('onMessage', { message });
    console.log('Message received:', message);
   }
 }

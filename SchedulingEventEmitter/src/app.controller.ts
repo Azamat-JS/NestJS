@@ -11,8 +11,13 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post()
-  async createUser(@Body() body: CreateUserDto): Promise<void>{
-    return this.appService.createUser(body)
+  // @Post()
+  // async createUser(@Body() body: CreateUserDto): Promise<void>{
+  //   return this.appService.createUser(body)
+  // }
+
+  @Post('auth')
+  async createAuth(@Body() data: CreateUserDto){
+    return this.appService.createAuth(data)
   }
 }
